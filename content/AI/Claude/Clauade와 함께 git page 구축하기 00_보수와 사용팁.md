@@ -2,11 +2,11 @@
 title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
 ---
 
+##### 기본 원리
 - 내 볼트가 있음
 	- 그 볼트 안에 blog에 올릴 전용 폴더를 만듦. 그 안에는 블로그의 카테고리가 될 하위 폴더들을 트리 구조로 넣어놓음 
 	- 내 개인 파일들은 최상단에 따로 올라가있음.
 
-- 1.2
 - 기본은 내 개인 폴더에서 작성하고 블로그에 올리고 싶은 글은 복제해서 블로그의 폴더에 넣음.
 - 변동사항을 블로그에 퍼블리시하는 publish.py 파일을 만들어 파워쉘로 실행시켜 사용
 
@@ -14,6 +14,7 @@ title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
 
 ![obsidian_blog_workflow_v3.svg](/AI/Claude/assets/obsidian_blog_workflow_v3.svg)
 
+##### 팁들
 - 매번 터미널 켜기 귀찮으니 shell commend 플러그인 사용
 	- 파이썬 파일 실행을 특정 핫키로 연결해서 사용
 		- ctrl shift p
