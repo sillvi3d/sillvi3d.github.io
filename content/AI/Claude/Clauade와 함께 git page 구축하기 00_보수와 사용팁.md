@@ -21,5 +21,3 @@ title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
 - 구체적인 레이아웃은 변경 안됨
 	- 틀 안에서 색상과 폰트는 변경 가능
 	- quartz>style>custom 안을 수정
-
-- 
