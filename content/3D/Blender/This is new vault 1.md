@@ -1,1 +1,1 @@
-![Pasted_image_20260404160035.png](assets/Pasted_image_20260404160035.png)
+![Pasted_image_20260404160035.png](/3D/Blender/assets/Pasted_image_20260404160035.png)
