@@ -6,18 +6,21 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [
-    Component.Comments({
-      provider: "giscus",
-      options: {
-        repo: "sillvi3d/sillvi3d.github.io",
-        repoId: "R_kgDOR5SDww",
-        category: "General",
-        categoryId: "DIC_kwDOR5SDw84C6Cfn",
-        mapping: "pathname",
-        strict: false,
-        reactionsEnabled: true,
-        inputPosition: "bottom",
-      },
+    Component.ConditionalRender({
+      component: Component.Comments({
+        provider: "giscus",
+        options: {
+          repo: "sillvi3d/sillvi3d.github.io",
+          repoId: "R_kgDOR5SDww",
+          category: "General",
+          categoryId: "DIC_kwDOR5SDw84C6Cfn",
+          mapping: "pathname",
+          strict: false,
+          reactionsEnabled: true,
+          inputPosition: "bottom",
+        },
+      }),
+      condition: (page) => page.fileData.slug !== "index",
     }),
   ],
   footer: Component.Footer({
