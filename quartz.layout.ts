@@ -5,7 +5,21 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.Comments({
+      provider: "giscus",
+      options: {
+        repo: "sillvi3d/sillvi3d.github.io",
+        repoId: "R_kgDOR5SDww",
+        category: "General",
+        categoryId: "DIC_kwDOR5SDw84C6Cfn",
+        mapping: "pathname",
+        strict: false,
+        reactionsEnabled: true,
+        inputPosition: "bottom",
+      },
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",
@@ -24,19 +38,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    Component.Comments({
-      provider: "giscus",
-      options: {
-        repo: "sillvi3d/sillvi3d.github.io",
-        repoId: "R_kgDOR5SDww",
-        category: "General",
-        categoryId: "DIC_kwDOR5SDw84C6Cfn",
-        mapping: "pathname",
-        strict: false,
-        reactionsEnabled: true,
-        inputPosition: "bottom",
-      },
-    }),
   ],
   left: [
     Component.PageTitle(),
