@@ -9,7 +9,7 @@ title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
 - 변동사항을 블로그에 퍼블리시하는 publish.py 파일을 만들어 파워쉘로 실행시켜 사용
 
 - 원본 개인 노트의 이미지 파일은 외부에 있는 이미지 전용 폴더에 넣어놔야하고 만약 노트를 복제해서 블로그 폴더 안에 넣으면  내부적으로 quartz가 블로그 내부의 보이지않는 asset이라는 폴더에 이미지 복제본을 가지고 있어서 그것을 블로그에 띄우게 됨
-![obsidian_blog_workflow_v3.svg](/AI/Claude/assets/obsidian_blog_workflow_v3.svg)
+![[obsidian_blog_workflow_v3.svg]]
 
 - 매번 터미널 켜기 귀찮으니 shell commend 플러그인 사용
 	- 파이썬 파일 실행을 특정 핫키로 연결해서 사용
