@@ -9,60 +9,18 @@
 // 슈퍼미트보이 테마
 // ==========================================
 
-// 헤더 영역 검정
-header, .navbar {
-  background-color: #000000 !important;
-}
-
-// 전체 배경
+// 전체 배경 검정
 body {
   background-color: #000000 !important;
-}
-
-// 본문 배경 회색 + 검정 글자
-article {
-  background-color: #999999 !important;
-  border: 3px solid #C31300;
-  padding: 2rem;
-  color: #000000 !important;
-}
-
-article p, article li, article td, article th {
-  color: #000000 !important;
-}
-
-// 본문 제목
-article h1, article h2, article h3 {
-  color: #C31300 !important;
-  font-family: 'Press Start 2P', monospace !important;
-  text-shadow: 2px 2px 0px #000;
-}
-
-// 본문 링크
-article a {
-  color: #C31300 !important;
-  &:hover {
-    color: #F99BFD !important;
-  }
-}
-
-// 태그
-.tag {
-  background-color: #C31300 !important;
-  color: #ffffff !important;
-  &:hover {
-    background-color: #F99BFD !important;
-    color: #000000 !important;
-  }
 }
 
 // 왼쪽 사이드바
 .left.sidebar {
   background-color: #000000 !important;
-  border-right: 3px solid #C31300;
+  border-right: 3px solid #C31300 !important;
 }
 
-// 블로그 타이틀 (왼쪽 상단) - 크게
+// 블로그 타이틀
 .page-title {
   font-family: 'Press Start 2P', monospace !important;
   color: #C31300 !important;
@@ -71,14 +29,13 @@ article a {
   text-shadow: 3px 3px 0px #000;
 }
 
-// Explorer 타이틀
+// Explorer
 .explorer-title {
   color: #ffffff !important;
   font-family: 'Press Start 2P', monospace !important;
   font-size: 0.6rem !important;
 }
 
-// Explorer 항목
 .explorer-ul li a {
   color: #cccccc !important;
   &:hover {
@@ -86,15 +43,61 @@ article a {
   }
 }
 
-// 본문 상단 페이지 제목 (중복 제거)
-.article-title {
-  display: none !important;
+// 본문 영역 - 회색 배경, 검정 글자
+article {
+  background-color: #999999 !important;
+  border: 3px solid #C31300 !important;
+  padding: 2rem !important;
+}
+
+// 본문 안 모든 글자 검정
+article,
+article p,
+article li,
+article td,
+article th,
+article span,
+article div,
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  color: #000000 !important;
+}
+
+// 본문 제목만 빨강
+article h1 {
+  color: #C31300 !important;
+  font-family: 'Press Start 2P', monospace !important;
+  font-size: 1.2rem !important;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.3) !important;
+}
+
+// 본문 링크
+article a {
+  color: #C31300 !important;
+  &:hover {
+    color: #800000 !important;
+  }
+}
+
+// 태그
+.tag {
+  background-color: #C31300 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+// breadcrumb
+.breadcrumb-container a {
+  color: #F99BFD !important;
 }
 
 // 날짜/메타
 .meta, .content-meta {
-  color: #555555 !important;
-  font-size: 0.75rem;
+  color: #000000 !important;
 }
 
 // 검색창
@@ -107,9 +110,4 @@ article a {
 // 우측 사이드바
 .right.sidebar {
   background-color: #000000 !important;
-}
-
-// breadcrumb
-.breadcrumb-container a {
-  color: #F99BFD !important;
 }
