@@ -13,7 +13,8 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
-      provider: "plausible",
+      provider: "google",
+      tagId: "G-WQ8EMEECF3",
     },
     locale: "en-US",
     baseUrl: "sillvi3d.github.io",
