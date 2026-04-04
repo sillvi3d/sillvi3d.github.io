@@ -1,6 +1,13 @@
 @use "./base.scss";
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  --google-font: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+}
+
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nYivN04w.woff2') format('woff2');
+}
 
 // ==========================================
 // 슈퍼미트보이 테마
