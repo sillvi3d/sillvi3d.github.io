@@ -1,9 +1,5 @@
 @use "./base.scss";
 
-:root {
-  --google-font: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-}
-
 @font-face {
   font-family: 'Press Start 2P';
   src: url('https://fonts.gstatic.com/s/pressstart2p/v15/e3t4euO8T-267oIAQAu6jDQyK3nYivN04w.woff2') format('woff2');
@@ -13,100 +9,107 @@
 // 슈퍼미트보이 테마
 // ==========================================
 
-// 전체 배경 검정
+// 헤더 영역 검정
+header, .navbar {
+  background-color: #000000 !important;
+}
+
+// 전체 배경
 body {
-  background-color: #0a0a0a !important;
+  background-color: #000000 !important;
 }
 
-// 픽셀 폰트 적용
-h1, h2, h3, h4, h5, h6,
-.page-title,
-.explorer-title {
+// 본문 배경 회색 + 검정 글자
+article {
+  background-color: #999999 !important;
+  border: 3px solid #C31300;
+  padding: 2rem;
+  color: #000000 !important;
+}
+
+article p, article li, article td, article th {
+  color: #000000 !important;
+}
+
+// 본문 제목
+article h1, article h2, article h3 {
+  color: #C31300 !important;
   font-family: 'Press Start 2P', monospace !important;
+  text-shadow: 2px 2px 0px #000;
 }
 
-// 사이드바 배경
+// 본문 링크
+article a {
+  color: #C31300 !important;
+  &:hover {
+    color: #F99BFD !important;
+  }
+}
+
+// 태그
+.tag {
+  background-color: #C31300 !important;
+  color: #ffffff !important;
+  &:hover {
+    background-color: #F99BFD !important;
+    color: #000000 !important;
+  }
+}
+
+// 왼쪽 사이드바
 .left.sidebar {
-  background-color: #111111;
-  border-right: 3px solid #CC0000;
+  background-color: #000000 !important;
+  border-right: 3px solid #C31300;
 }
 
-// 블로그 타이틀 빨강
+// 블로그 타이틀 (왼쪽 상단) - 크게
 .page-title {
-  color: #CC0000 !important;
-  font-size: 0.9rem !important;
-  line-height: 1.8 !important;
+  font-family: 'Press Start 2P', monospace !important;
+  color: #C31300 !important;
+  font-size: 1.1rem !important;
+  line-height: 2 !important;
   text-shadow: 3px 3px 0px #000;
 }
 
 // Explorer 타이틀
 .explorer-title {
   color: #ffffff !important;
+  font-family: 'Press Start 2P', monospace !important;
   font-size: 0.6rem !important;
 }
 
-// Explorer 항목들
+// Explorer 항목
 .explorer-ul li a {
   color: #cccccc !important;
   &:hover {
-    color: #CC0000 !important;
+    color: #F99BFD !important;
   }
 }
 
-// 본문 배경
-article {
-  background-color: #111111;
-  border: 3px solid #333333;
-  padding: 2rem;
+// 본문 상단 페이지 제목 (중복 제거)
+.article-title {
+  display: none !important;
 }
 
-// 본문 제목
-article h1 {
-  color: #CC0000 !important;
-  font-family: 'Press Start 2P', monospace !important;
-  font-size: 1rem !important;
-  text-shadow: 3px 3px 0px #000;
-  border-bottom: 3px solid #CC0000;
-  padding-bottom: 0.5rem;
-}
-
-// 본문 텍스트
-article p, article li {
-  color: #dddddd !important;
-}
-
-// 링크
-article a {
-  color: #CC0000 !important;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-    color: #ff3333 !important;
-  }
-}
-
-// 날짜/메타 정보
+// 날짜/메타
 .meta, .content-meta {
-  color: #666666 !important;
-  font-size: 0.7rem;
+  color: #555555 !important;
+  font-size: 0.75rem;
 }
 
 // 검색창
 #search-bar {
   background-color: #1a1a1a !important;
-  border: 2px solid #CC0000 !important;
+  border: 2px solid #C31300 !important;
   color: #ffffff !important;
-}
-
-// 폴더 목록 항목
-.section-li {
-  border-bottom: 1px solid #222222;
-  &:hover {
-    background-color: #1a1a1a;
-  }
 }
 
 // 우측 사이드바
 .right.sidebar {
-  background-color: #0a0a0a;
+  background-color: #000000 !important;
+}
+
+// breadcrumb
+.breadcrumb-container a {
+  color: #F99BFD !important;
 }
