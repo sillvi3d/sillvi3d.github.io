@@ -10,7 +10,7 @@ title: (기능 · 팁) 현재 세팅을 Startup으로 설정하기
 1. 유닛 설정 바꿔도 파일 단위로 이 설정이 저장되기 때문에 새 씬을 열면 해당 설정이 초기화 된다.
 2. 원하는 초기값 세팅을 했다면 이것을 startup으로 설정할 수 있다.
 	- File → Defaults → Save Startup File
-		![[Pasted image 20260405215544.png|300]]ㅎ
+		![Pasted_image_20260405215544.png](/3D/Blender/assets/Pasted_image_20260405215544.png)
 
 ##### 참고
 
@@ -20,4 +20,4 @@ title: (기능 · 팁) 현재 세팅을 Startup으로 설정하기
 
 - ? 꼬리 질문: 왜 Preference 창에서 바꾸는 단축키나 애드온, 기본 세팅들은 따로 저장을 안해도 알아서 저장되는가?
 	- Auto save가 켜져있음
-		![[Pasted image 20260405215938.png|400]]
+		![Pasted_image_20260405215938.png](/3D/Blender/assets/Pasted_image_20260405215938.png)
