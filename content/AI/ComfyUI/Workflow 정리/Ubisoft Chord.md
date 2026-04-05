@@ -8,7 +8,8 @@ title: Ubisoft Chord
 - Image를 1024로 변환한 뒤 bg 제거한 png와 마스크 추출 (하단 2개)
 
 `이미지`
-![Pasted_image_20260405181347.png](/AI/ComfyUI/Workflow 정리/assets/Pasted_image_20260405181347.png)
+
+![Pasted_image_20260405181347.png](/AI/ComfyUI/Workflow%20정리/assets/Pasted_image_20260405181347.png)
 ##### 주요 커스텀 노드/모델/로라
 
 - chord 엔진
@@ -22,7 +23,7 @@ title: Ubisoft Chord
 	- vae - [Flux.1-dev](https://huggingface.co/black-forest-labs/FLUX.1-dev/tree/main)
 		- models/vae/
 		- 동의 누르고 -> gate 모델은 hugging face에서 동의를 눌러야 쓸 수 있음
-			![Pasted_image_20260402165637.png](/AI/ComfyUI/Workflow 정리/assets/Pasted_image_20260402165637.png)
+			![Pasted_image_20260402165637.png](/AI/ComfyUI/Workflow%20정리/assets/Pasted_image_20260402165637.png)
 		- files로 넘어간 뒤 ae.safetensors 만 다운로드
 		- 335mb
 	- 텍스트 인코더 - qwen_3_4b 텍스트 인코더
@@ -53,4 +54,4 @@ title: Ubisoft Chord
 	- Vram 용량이 꽉 찬 것임
 		- 이미지 사이즈나
 		- step 줄이기
-			![Pasted_image_20260402175754.png](/AI/ComfyUI/Workflow 정리/assets/Pasted_image_20260402175754.png)
+			![Pasted_image_20260402175754.png](/AI/ComfyUI/Workflow%20정리/assets/Pasted_image_20260402175754.png)
