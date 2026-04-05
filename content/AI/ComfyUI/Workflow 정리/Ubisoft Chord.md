@@ -48,7 +48,7 @@ title: Ubisoft Chord
 
 ##### 결과물 · 샘플
 
-![chord_zimage_turbo_i2i_image_to_material_final.json](/AI/ComfyUI/Workflow 정리/assets/chord_zimage_turbo_i2i_image_to_material_final.json)
+[chord_zimage_turbo_i2i_image_to_material_final.json](/AI/ComfyUI/Workflow 정리/assets/chord_zimage_turbo_i2i_image_to_material_final.json)
 ##### 특이사항
 - 만약 1번 딴에서 진행이 안된다면
 	- Vram 용량이 꽉 찬 것임
