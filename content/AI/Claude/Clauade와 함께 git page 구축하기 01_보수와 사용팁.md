@@ -1,5 +1,5 @@
 ---
-title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
+title: Clauade와 함께 git page 구축하기 01_보수와 사용팁
 ---
 
 ##### 기본 원리
