@@ -19,7 +19,7 @@ title: Clauade와 함께 git page 구축하기 00_보수와 사용팁
 	- 성공적으로 퍼블리시 됐는지를 확인하기 위해서 `py -m pip install winotify` 로 연동
 		- 퍼블리시 성공하면 윈도우 알람 오도록 설정 가능
 			![Pasted_image_20260405175958.png](/AI/Claude/assets/Pasted_image_20260405175958.png)
-		- 홈페이지 변경 사항 반영은 그냥 새로고침 말고 ctrl shift r 강화새로고침을 해야 결과 확인됨.
+		- 홈페이지 변경 사항 반영은 그냥 새로고침 말고 ctrl shift r 강화새로고침을 해야 결과 확인됨
 		- 변동사항이 없으면 publish해도 알람이 안옴
 
 - 해당 파이프라인의 특징이 있다면
