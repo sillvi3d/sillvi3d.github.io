@@ -1,5 +1,5 @@
 ---
-title: Clauade와 함께 git page 구축하기 01_새로운 환경에서 세팅방법
+title: Clauade와 함께 git page 구축하기 01_새로운 환경에서 세팅할 때 챙겨야 할 것
 ---
 
 1. 볼트 git clone
