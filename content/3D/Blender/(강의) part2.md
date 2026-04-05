@@ -33,17 +33,15 @@ title: (강의) part2
 ###### `bevel 코너 처리 방법`
 
 **Miter Outer / Inner**
+- 코너 처리 방식
+	- `Sharp` — 날카롭게 처리. 기본값.
+		![Pasted_image_20260405233140.png](/3D/Blender/assets/Pasted_image_20260405233140.png)
 
-코너 처리 방식입니다. 지금 보시는 옵션들이 이겁니다.
-
-- `Sharp` — 날카롭게 처리. 기본값.
-	![Pasted_image_20260405233140.png](/3D/Blender/assets/Pasted_image_20260405233140.png)
-
-- `Patch` — 코너를 패치 형태로 처리.
-	![Pasted_image_20260405233210.png](/3D/Blender/assets/Pasted_image_20260405233210.png)
-- `Arc` — 코너를 호 형태로 둥글게 처리. 튜토리얼에서 쓰는 이유는 코너가 더 자연스럽게 나오기 때문.
-	- 둥근 코너에 사용하기 좋음
-		![Pasted_image_20260405233239.png](/3D/Blender/assets/Pasted_image_20260405233239.png)
+	- `Patch` — 코너를 패치 형태로 처리.
+		![Pasted_image_20260405233210.png](/3D/Blender/assets/Pasted_image_20260405233210.png)
+	- `Arc` — 코너를 호 형태로 둥글게 처리. 튜토리얼에서 쓰는 이유는 코너가 더 자연스럽게 나오기 때문.
+		- 둥근 코너에 사용하기 좋음
+			![Pasted_image_20260405233239.png](/3D/Blender/assets/Pasted_image_20260405233239.png)
 
 ##### 따라한 것 · 실습
 
@@ -69,7 +67,7 @@ title: (강의) part2
 	![Pasted_image_20260405234442.png](/3D/Blender/assets/Pasted_image_20260405234442.png)
 10. J로 면 정리
 	![Pasted_image_20260405234508.png](/3D/Blender/assets/Pasted_image_20260405234508.png)
-	
+
 ##### 내가 추가로 발견한 것
 
 - 
