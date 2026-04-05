@@ -2,7 +2,7 @@
 title: Ubisoft Chord
 ---
 
-날짜 : 
+날짜 : 26.04.05
 ##### 한 줄 요약
 - Input 이미지를 pbr 변환함 (상단 5개)
 - Image를 1024로 변환한 뒤 bg 제거한 png와 마스크 추출 (하단 2개)
@@ -48,7 +48,7 @@ title: Ubisoft Chord
 
 ##### 결과물 · 샘플
 
-[chord_zimage_turbo_i2i_image_to_material_final.json](/AI/ComfyUI/Workflow 정리/assets/chord_zimage_turbo_i2i_image_to_material_final.json)
+[chord_zimage_turbo_i2i_image_to_material_final.json](/AI/ComfyUI/Workflow%20정리/assets/chord_zimage_turbo_i2i_image_to_material_final.json)
 ##### 특이사항
 - 만약 1번 딴에서 진행이 안된다면
 	- Vram 용량이 꽉 찬 것임
