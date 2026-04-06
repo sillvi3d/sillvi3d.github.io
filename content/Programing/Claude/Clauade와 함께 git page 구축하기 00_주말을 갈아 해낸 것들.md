@@ -76,16 +76,16 @@ title: Clauade와 함께 git page 구축하기 00_주말을 갈아 해낸 것들
 - 클러드에게 파일 경로 알려줄 때 정확하게 알려줘야 한다
 - 아이콘도 오류를 많이 불러 일으켰다
 - 제목도 형식에 맞추어 잘 작성해야만 업로드 된다. 마크다운 공식을 철저히 지키자
- <img src="/Programing/Claude/assets/Pasted_image_20260405220657.png" width="400" />
+	![Pasted_image_20260405220657.png](/Programing/Claude/assets/Pasted_image_20260405220657.png)
 - 확장자를 유심히 보자. 
 	- 경로에 파일이 있는데 파일을 찾을 수 없다라는 오류가 뜨면 확장자를 잘못 설정했을 가능성이 있다.
 		- 특히 메모장 저장 후 이름 바꾸기를 한다고 파이선으로 변하지 않는다.
 		- 저장을 할 때 .py 확장자를 붙여주어야 파이선 파일로 생성이 된다.
-  <img src="/Programing/Claude/assets/스크린샷_2026-04-06_093741.png" width="100" />
+		![스크린샷_2026-04-06_093741.png](/Programing/Claude/assets/스크린샷_2026-04-06_093741.png)
 
 ##### Next step
 이거한다고 주말이 거의 날라갔다. 하지만 정말 뿌듯하다. 예전에도 깃허브 블로그를 도전했던 적이 많은데 매번 git 사용에서부터 막혔었다. 근데 혼자서도 클러드만 있으면 웹사이트를 만들 수 있다. 바이브 코딩도 기초가 있어야 하니 플밍 기초강의를 짬짬히 듣고 있다. 업무적으로도 생산성을 높일 수 있는 응용 프로그램을 만들어보고 싶다.
 
-<img src="/Programing/Claude/assets/Pasted_image_20260405190012.png" width="450" />
+![Pasted_image_20260405190012.png](/Programing/Claude/assets/Pasted_image_20260405190012.png)
 
 - [블로그 검색 노출](https://jsy1110.github.io/2022/google-search-console/)

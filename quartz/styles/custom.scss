@@ -33,15 +33,10 @@ article ul ul li { list-style-type: circle; }
 article ul ul ul li { list-style-type: square; }
 
 /* ==========================================
-   이미지 목록 안에서 정렬
+   이미지 크기 및 정렬
    ========================================== */
-article li img,
-article li > img {
+article img {
+  max-width: 300px;
   display: block;
-  max-width: 100%;
   margin: 0.5em 0;
-}
-
-article li p {
-  margin: 0;
 }
