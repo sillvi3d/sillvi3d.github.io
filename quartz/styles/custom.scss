@@ -24,10 +24,9 @@ article ul ul li { list-style-type: circle; }
 article ul ul ul li { list-style-type: square; }
 
 /* ==========================================
-   세로 가이드 라인 - ::before 로 선만 제어
+   중첩 목록 가이드 라인
    ========================================== */
 
-/* 중첩 목록 앞 가이드 라인 */
 article ul ul,
 article ol ol,
 article ul ol,
@@ -50,16 +49,25 @@ article ol ul::before {
   background-color: rgba(128, 128, 128, 0.5);
 }
 
-/* 이미지 포함한 li 앞 가이드 라인 */
-article li:has(> img) {
-  border-left: 1.5px solid rgba(128, 128, 128, 0.5);
-  padding-left: 3em;
-  margin-left: -0.1em;
+/* ==========================================
+   이미지 포함 li 가이드 라인
+   ::after 사용 → 레이아웃 영향 없음
+   ========================================== */
+
+article li:has(> img)::after {
+  content: '';
+  position: absolute;
+  left: -0.7em;
+  top: 1.7em;
+  bottom: 0;
+  width: 1.5px;
+  background-color: rgba(128, 128, 128, 0.5);
 }
 
 /* ==========================================
    이미지 스타일
    ========================================== */
+
 article img {
   display: block;
   margin: 0.5em 0;
