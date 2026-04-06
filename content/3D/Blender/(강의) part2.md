@@ -25,9 +25,9 @@ title: (강의) part2
 
 - 저 반구 모양에 면을 쪼갠다고 했을 때
 	- F를  쓰면 edge가 face를 자르지 않고 두 버텍스 사이를 연결하기만 함
-		![Pasted_image_20260405232104.png](/3D/Blender/assets/Pasted_image_20260405232104.png)
+		![[Pasted image 20260405232104.png|200]]
 	- J를 써줘야 함. J를 쓰면 face가 나눠짐
-		![Pasted_image_20260405232302.png](/3D/Blender/assets/Pasted_image_20260405232302.png)
+		![[Pasted image 20260405232302.png|200]]
 
 - K - knife
 	- 아예 칼로 자름. 확실하게 vertex 쪼개짐
@@ -37,38 +37,38 @@ title: (강의) part2
 **Miter Outer / Inner**
 - 코너 처리 방식
 	- `Sharp` — 날카롭게 처리. 기본값.
-		![Pasted_image_20260405233140.png](/3D/Blender/assets/Pasted_image_20260405233140.png)
+		![[Pasted image 20260405233140.png|200]]
 
 	- `Patch` — 코너를 패치 형태로 처리.
-		![Pasted_image_20260405233210.png](/3D/Blender/assets/Pasted_image_20260405233210.png)
+		![[Pasted image 20260405233210.png|200]]
 	- `Arc` — 코너를 호 형태로 둥글게 처리. 튜토리얼에서 쓰는 이유는 코너가 더 자연스럽게 나오기 때문.
 		- 둥근 코너에 사용하기 좋음
-			![Pasted_image_20260405233239.png](/3D/Blender/assets/Pasted_image_20260405233239.png)
+			![[Pasted image 20260405233239.png|200]]
 
 ##### 따라한 것 · 실습
 
 1. k > c하면 뒷면까지 잘림
 	- xray 모드에서 위쪽 절반 face 삭제
-	![Pasted_image_20260405233534.png](/3D/Blender/assets/Pasted_image_20260405233534.png)
+	![[Pasted image 20260405233534.png|300]]
 2. fill로 edge들 채우기
-	![Pasted_image_20260405233620.png](/3D/Blender/assets/Pasted_image_20260405233620.png)
+	![[Pasted image 20260405233620.png|300]]
 3. 루프 추가
 	- ctrl r
-		![Pasted_image_20260405233639.png](/3D/Blender/assets/Pasted_image_20260405233639.png)
+		![[Pasted image 20260405233639.png|300]]
 4. J로 면 정리
-	![Pasted_image_20260405233756.png](/3D/Blender/assets/Pasted_image_20260405233756.png)
+	![[Pasted image 20260405233756.png|300]]
 5. 루프 추가
-	![Pasted_image_20260405233837.png](/3D/Blender/assets/Pasted_image_20260405233837.png)
+	![[Pasted image 20260405233837.png|300]]
 6. J로 면정리 후 버텍스 와이어프레임 정리
-	![Pasted_image_20260405234005.png](/3D/Blender/assets/Pasted_image_20260405234005.png)
+	![[Pasted image 20260405234005.png|300]]
 7. s > z > 0한 뒤
-	![Pasted_image_20260405234048.png](/3D/Blender/assets/Pasted_image_20260405234048.png)
+	![[Pasted image 20260405234048.png|300]]
 8. 버텍스 스냅으로 아래로 내리기
-	![Pasted_image_20260405234326.png](/3D/Blender/assets/Pasted_image_20260405234326.png)
+	![[Pasted image 20260405234326.png|300]]
 9. bevel
-	![Pasted_image_20260405234442.png](/3D/Blender/assets/Pasted_image_20260405234442.png)
+	![[Pasted image 20260405234442.png|300]]
 10. J로 면 정리
-	![Pasted_image_20260405234508.png](/3D/Blender/assets/Pasted_image_20260405234508.png)
+	![[Pasted image 20260405234508.png|200]]
 
 ##### 내가 추가로 발견한 것
 
