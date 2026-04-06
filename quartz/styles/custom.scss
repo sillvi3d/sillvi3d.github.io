@@ -53,7 +53,7 @@ article ol ul::before {
 /* 이미지 포함한 li 앞 가이드 라인 */
 article li:has(> img) {
   border-left: 1.5px solid rgba(128, 128, 128, 0.5);
-  padding-left: 0.7em;
+  padding-left: 0.3em;
   margin-left: -0.1em;
 }
 
