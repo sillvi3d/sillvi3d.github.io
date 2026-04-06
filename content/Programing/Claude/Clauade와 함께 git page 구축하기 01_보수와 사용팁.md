@@ -18,7 +18,10 @@ title: Clauade와 함께 git page 구축하기 01_보수와 사용팁
 	- 깃액션 특성상 어쩔 수 없음
 	- 성공적으로 퍼블리시 됐는지를 확인하기 위해서 `py -m pip install winotify` 로 연동
 		- 퍼블리시 성공하면 윈도우 알람 오도록 설정 가능
-			<img src="/Programing/Claude/assets/Pasted_image_20260405175958.png" width="300" />
+			
+
+<img src="/Programing/Claude/assets/Pasted_image_20260405175958.png" width="300" />
+
 		- 홈페이지 변경 사항 반영은 그냥 새로고침 말고 ctrl shift r 강화새로고침을 해야 결과 확인됨
 		- 변동사항이 없으면 publish해도 알람이 안옴
 
@@ -26,7 +29,9 @@ title: Clauade와 함께 git page 구축하기 01_보수와 사용팁
 	- 원본 개인 노트의 이미지 파일은 외부에 있는 이미지 전용 폴더에 넣어놔야하고 만약 노트를 복제해서 블로그 폴더 안에 넣으면  내부적으로 quartz가 블로그 내부의 보이지않는 asset이라는 폴더에 이미지 복제본을 가지고 있어서 그것을 블로그에 띄우게 됨
 
 - 워크플로우 요약
-	<img src="/Programing/Claude/assets/obsidian_blog_workflow_v3.svg" width="300" />
+	
+
+<img src="/Programing/Claude/assets/obsidian_blog_workflow_v3.svg" width="300" />
 
 ##### 기타 특이사항
 - quartz는 구체적인 레이아웃은 변경 안됨. 레이아웃 자체를 건드는 것은 가능은 하나, quartz 업데이트 초기화되는 문제 등은 감수해야 한다고 함.
