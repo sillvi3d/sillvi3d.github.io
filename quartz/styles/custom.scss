@@ -9,7 +9,7 @@
    ========================================== */
 
 article ul, article ol {
-  padding-left: 1.2em;
+  padding-left: 1.4em;
 }
 
 article ul li, article ol li {
@@ -22,8 +22,8 @@ article ul ul,
 article ol ol,
 article ul ol,
 article ol ul {
-  border-left: 1.5px solid rgba(128, 128, 128, 0.3);
-  margin-left: 0.3em;
+  border-left: 2px solid rgba(128, 128, 128, 0.6);
+  margin-left: 0.2em;
   padding-left: 1em;
 }
 
@@ -33,12 +33,13 @@ article ul ul li { list-style-type: circle; }
 article ul ul ul li { list-style-type: square; }
 
 /* ==========================================
-   이미지가 목록 밖으로 튀어나오는 문제 수정
+   이미지 목록 안에서 정렬
    ========================================== */
-article li img {
+article li img,
+article li > img {
   display: block;
   max-width: 100%;
-  margin: 0.4em 0;
+  margin: 0.5em 0;
 }
 
 article li p {
