@@ -26,12 +26,10 @@ title: (강의) part2
 - 저 반구 모양에 면을 쪼갠다고 했을 때
 	- F를  쓰면 edge가 face를 자르지 않고 두 버텍스 사이를 연결하기만 함
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405232104.png" width="200" />
 
 	- J를 써줘야 함. J를 쓰면 face가 나눠짐
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405232302.png" width="200" />
 
 - K - knife
@@ -43,18 +41,15 @@ title: (강의) part2
 - 코너 처리 방식
 	- `Sharp` — 날카롭게 처리. 기본값.
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233140.png" width="200" />
 
 	- `Patch` — 코너를 패치 형태로 처리.
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233210.png" width="200" />
 
 	- `Arc` — 코너를 호 형태로 둥글게 처리. 튜토리얼에서 쓰는 이유는 코너가 더 자연스럽게 나오기 때문.
 		- 둥근 코너에 사용하기 좋음
 			
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233239.png" width="200" />
 
 ##### 따라한 것 · 실습
@@ -62,53 +57,43 @@ title: (강의) part2
 1. k > c하면 뒷면까지 잘림
 	- xray 모드에서 위쪽 절반 face 삭제
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233534.png" width="300" />
 
 2. fill로 edge들 채우기
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233620.png" width="300" />
 
 3. 루프 추가
 	- ctrl r
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233639.png" width="300" />
 
 4. J로 면 정리
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233756.png" width="300" />
 
 5. 루프 추가
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405233837.png" width="300" />
 
 6. J로 면정리 후 버텍스 와이어프레임 정리
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405234005.png" width="300" />
 
 7. s > z > 0한 뒤
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405234048.png" width="300" />
 
 8. 버텍스 스냅으로 아래로 내리기
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405234326.png" width="300" />
 
 9. bevel
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405234442.png" width="300" />
 
 10. J로 면 정리
 	
-
 <img src="/3D/Blender/assets/Pasted_image_20260405234508.png" width="200" />
 
 ##### 내가 추가로 발견한 것

@@ -13,7 +13,6 @@ title: (기능 · 팁) 현재 세팅을 Startup으로 설정하기
 2. 원하는 초기값 세팅을 했다면 이것을 startup으로 설정할 수 있다.
 	- File → Defaults → Save Startup File
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405215544.png" width="200" />
 
 ##### 참고
@@ -25,6 +24,5 @@ title: (기능 · 팁) 현재 세팅을 Startup으로 설정하기
 - ? 꼬리 질문: 왜 Preference 창에서 바꾸는 단축키나 애드온, 기본 세팅들은 따로 저장을 안해도 알아서 저장되는가?
 	- Auto save가 켜져있음
 		
-
 <img src="/3D/Blender/assets/Pasted_image_20260405215938.png" width="300" />
 

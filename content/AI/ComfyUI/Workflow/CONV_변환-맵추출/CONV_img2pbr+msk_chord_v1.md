@@ -31,7 +31,6 @@ title: CONV_img2pbr+msk_chord_v1
 		- models/vae/
 		- 동의 누르고 -> gate 모델은 hugging face에서 동의를 눌러야 쓸 수 있음
 			
-
 <img src="/AI/ComfyUI/Workflow/CONV_변환-맵추출/assets/Pasted_image_20260402165637.png" width="300" />
 
 		- files로 넘어간 뒤 ae.safetensors 만 다운로드
@@ -65,6 +64,4 @@ title: CONV_img2pbr+msk_chord_v1
 		- 이미지 사이즈나
 		- step 줄이기
 			
-
 <img src="/AI/ComfyUI/Workflow/CONV_변환-맵추출/assets/Pasted_image_20260402175754.png" width="300" />
-

@@ -77,7 +77,6 @@ title: Clauade와 함께 git page 구축하기 00_주말을 갈아 해낸 것들
 - 아이콘도 오류를 많이 불러 일으켰다
 - 제목도 형식에 맞추어 잘 작성해야만 업로드 된다. 마크다운 공식을 철저히 지키자
 	
-
 <img src="/Programing/Claude/assets/Pasted_image_20260405220657.png" width="400" />
 
 - 확장자를 유심히 보자. 
@@ -85,7 +84,6 @@ title: Clauade와 함께 git page 구축하기 00_주말을 갈아 해낸 것들
 		- 특히 메모장 저장 후 이름 바꾸기를 한다고 파이선으로 변하지 않는다.
 		- 저장을 할 때 .py 확장자를 붙여주어야 파이선 파일로 생성이 된다.
 		
-
 <img src="/Programing/Claude/assets/스크린샷_2026-04-06_093741.png" width="100" />
 
 ##### Next step

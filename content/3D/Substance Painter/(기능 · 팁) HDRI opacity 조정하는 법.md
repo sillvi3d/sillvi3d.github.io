@@ -10,9 +10,7 @@ title: (기능 · 팁) HDRI opacity 조정하는 법
 
 1. 우측 enviroment 창에서 opacity 조정
 	
-
 <img src="/3D/Substance%20Painter/assets/Pasted_image_20260406001638.png" width="300" />
-
  
 
 ##### 참고
