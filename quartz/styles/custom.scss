@@ -15,6 +15,7 @@ article ul, article ol {
 article ul li, article ol li {
   margin: 0.05em 0;
   line-height: 1.65;
+  position: relative;
 }
 
 /* 불릿 단계별 모양 */
@@ -22,7 +23,11 @@ article ul li { list-style-type: disc; }
 article ul ul li { list-style-type: circle; }
 article ul ul ul li { list-style-type: square; }
 
-/* 세로 가이드 라인 - ::before로 선만 따로 제어 (불릿 위치 유지) */
+/* ==========================================
+   세로 가이드 라인 - ::before 로 선만 제어
+   ========================================== */
+
+/* 중첩 목록 앞 가이드 라인 */
 article ul ul,
 article ol ol,
 article ul ol,
@@ -41,41 +46,21 @@ article ol ul::before {
   left: 0.1em;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background-color: rgba(128, 128, 128, 0.6);
+  width: 1.5px;
+  background-color: rgba(128, 128, 128, 0.5);
 }
 
-/* ==========================================
-   이미지 앞에도 가이드 라인
-   - 이미지가 들어있는 li에 선을 이어줌
-   ========================================== */
-article li {
-  position: relative;
-}
-
-article li > img,
-article li > p > img,
-article li > span > img {
-  display: block;
-  margin: 0.5em 0 0.5em 0;
-}
-
-/* 이미지를 포함한 li 앞에 선 */
-article ol > li:has(img),
-article ul > li:has(img) {
-  border-left: 2px solid rgba(128, 128, 128, 0.6);
-  padding-left: 0.6em;
+/* 이미지 포함한 li 앞 가이드 라인 */
+article li:has(> img) {
+  border-left: 1.5px solid rgba(128, 128, 128, 0.5);
+  padding-left: 0.7em;
   margin-left: -0.1em;
 }
 
 /* ==========================================
-   이미지 기본 크기
+   이미지 스타일
    ========================================== */
 article img {
-  max-width: 300px;
-}
-
-article span img {
   display: block;
   margin: 0.5em 0;
 }
