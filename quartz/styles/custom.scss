@@ -51,17 +51,16 @@ article ol ul::before {
 
 /* ==========================================
    이미지 포함 li 가이드 라인
-   > 없이 모든 depth의 img 감지
    ========================================== */
 
-article li:has(img) {
+article li:has(> img) {
   position: relative;
 }
 
-article li:has(img)::after {
+article li:has(> img)::after {
   content: '';
   position: absolute;
-  left: -0.7em;
+  left: -1.1em;
   top: 1.7em;
   bottom: 0;
   width: 1.5px;
