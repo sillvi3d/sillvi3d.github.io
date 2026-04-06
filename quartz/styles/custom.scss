@@ -60,7 +60,7 @@ article li:has(> img) {
 article li:has(> img)::after {
   content: '';
   position: absolute;
-  left: -1.1em;
+  left: -4em;
   top: 1.7em;
   bottom: 0;
   width: 1.5px;
