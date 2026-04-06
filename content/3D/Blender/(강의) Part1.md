@@ -4,6 +4,7 @@ title: (강의) Part1
 
 날짜 : 26.04.05
 링크: [pixlways](https://www.youtube.com/shorts/dXeQbwmu8EQ)
+
 #blender
 ##### 한 줄 요약
 

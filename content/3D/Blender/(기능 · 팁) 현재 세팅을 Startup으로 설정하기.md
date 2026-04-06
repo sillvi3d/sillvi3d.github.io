@@ -3,6 +3,7 @@ title: (기능 · 팁) 현재 세팅을 Startup으로 설정하기
 ---
 
 날짜 : 26.04.05
+
 #blender
 ##### 한 줄 요약
 - File → Defaults → Save Startup File
