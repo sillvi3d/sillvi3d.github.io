@@ -1,11 +1,17 @@
 ---
-title: Ubisoft Chord
+title: CONV_img2pbr+msk_chord_v1
 ---
 
 날짜 : 26.04.05
+
+#Ubisoft #chord 
 ##### 한 줄 요약
 - Input 이미지를 pbr 변환함 (상단 5개)
 - Image를 1024로 변환한 뒤 bg 제거한 png와 마스크 추출 (하단 2개)
+
+- `img2pbr` → PBR 맵 추출
+- `+msk` → 마스크도 같이 추출
+- `chord` → 핵심 모델
 
 `이미지`
 
