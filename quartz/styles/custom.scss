@@ -3,3 +3,38 @@
 .explorer-ul .nav-file-title-content {
   font-size: 0.4rem !important;
 }
+
+/* ==========================================
+   옵시디언 스타일 목록
+   ========================================== */
+
+/* 중첩 목록 세로 가이드 라인 */
+article ul, article ol {
+  padding-left: 1.4em;
+  position: relative;
+}
+
+article ul li, article ol li {
+  position: relative;
+  margin: 0.1em 0;
+  line-height: 1.6;
+}
+
+article ul ul,
+article ol ol,
+article ul ol,
+article ol ul {
+  border-left: 1.5px solid rgba(128, 128, 128, 0.35);
+  margin-left: 0.2em;
+  padding-left: 1.2em;
+}
+
+/* 불릿 스타일 */
+article ul li::marker {
+  color: var(--gray);
+}
+
+/* 들여쓰기 단계별 불릿 모양 */
+article ul li { list-style-type: disc; }
+article ul ul li { list-style-type: circle; }
+article ul ul ul li { list-style-type: square; }
