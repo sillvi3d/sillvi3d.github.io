@@ -1,5 +1,6 @@
 import os
 import requests
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 
 # ── 설정 ──────────────────────────────────────────
@@ -7,8 +8,8 @@ SUBREDDIT   = "comfyui"
 FLAIRS      = ["Workflow Included", "News", "Tutorial"]
 FLAIR_EMOJI = {"Workflow Included": "🟢", "News": "🔴", "Tutorial": "🟡"}
 VAULT_PATH  = "content/ComfyUI-Daily"
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]   # Actions가 자동 주입
-HEADERS     = {"User-Agent": "comfyui-digest-bot/1.0"}
+GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
+HEADERS     = {"User-Agent": "Mozilla/5.0 (compatible; comfyui-digest-bot/1.0)"}
 
 KST = timezone(timedelta(hours=9))
 now_kst   = datetime.now(KST)
@@ -19,25 +20,36 @@ since_ts  = (now_kst - timedelta(hours=24)).timestamp()
 
 def fetch_posts(flair: str) -> list[dict]:
     url = (
-        f"https://www.reddit.com/r/{SUBREDDIT}/search.json"
+        f"https://www.reddit.com/r/{SUBREDDIT}/search.rss"
         f"?q=flair%3A%22{flair.replace(' ', '+')}%22"
         f"&restrict_sr=1&sort=new&limit=50"
     )
     res = requests.get(url, headers=HEADERS, timeout=15)
     res.raise_for_status()
-    posts = res.json()["data"]["children"]
+
+    ns = {"atom": "http://www.w3.org/2005/Atom"}
+    root = ET.fromstring(res.text)
+    entries = root.findall("atom:entry", ns)
 
     filtered = []
-    for p in posts:
-        d = p["data"]
-        if d.get("created_utc", 0) < since_ts:
+    for e in entries:
+        updated = e.findtext("atom:updated", "", ns)
+        try:
+            post_ts = datetime.fromisoformat(updated.replace("Z", "+00:00")).timestamp()
+        except Exception:
             continue
+        if post_ts < since_ts:
+            continue
+        title   = e.findtext("atom:title", "", ns)
+        link    = e.find("atom:link", ns)
+        url_str = link.attrib.get("href", "") if link is not None else ""
+        content = e.findtext("atom:content", "", ns)[:500]
         filtered.append({
-            "title"   : d.get("title", ""),
-            "url"     : f"https://reddit.com{d.get('permalink', '')}",
-            "score"   : d.get("score", 0),
-            "comments": d.get("num_comments", 0),
-            "selftext": d.get("selftext", "")[:500],
+            "title"   : title,
+            "url"     : url_str,
+            "score"   : 0,
+            "comments": 0,
+            "selftext": content,
         })
     return filtered
 
