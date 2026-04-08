@@ -1,0 +1,35 @@
+name: ComfyUI Reddit Daily Digest
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # 매일 오전 9시 KST (= UTC 00:00)
+  workflow_dispatch:        # 수동 실행 버튼도 활성화
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 의존성 설치
+        run: pip install requests
+
+      - name: Reddit 크롤링 & 요약 실행
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 자동 제공 — 등록 불필요
+        run: python scripts/reddit_digest.py
+
+      - name: 변경사항 커밋 & 푸시
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/ComfyUI-Daily/
+          git diff --staged --quiet || git commit -m "📰 ComfyUI Daily Digest $(date +'%Y-%m-%d')"
+          git push
