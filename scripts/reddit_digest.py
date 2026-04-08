@@ -83,7 +83,7 @@ def summarize(flair: str, posts: list[dict]) -> str:
             "Content-Type" : "application/json",
         },
         json={
-            "model"   : "meta-llama-3.1-70b-instruct",
+            "model"   : "gpt-4o-mini",
             "messages": [{"role": "user", "content": prompt}],
         },
         timeout=60,
