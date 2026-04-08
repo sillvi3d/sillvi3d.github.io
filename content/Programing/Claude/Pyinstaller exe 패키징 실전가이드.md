@@ -6,8 +6,9 @@ title: Pyinstaller exe 패키징 실전가이드
 
 ##### 한 줄 설명.
 
-Python 스크립트를 `.exe` 단독 실행 파일로 패키징하는 PyInstaller 실전 사용 가이드
-
+- Python 스크립트를 `.exe` 단독 실행 파일로 패키징하는 PyInstaller 실전 사용 가이드
+- 딱히 파일 필요없이 터미널에서 패키징을 하는 것임.
+	- 다만 이 과정을 bat 파일로 만들어 간단히 실행할수는 있음
 ##### 용도
 
 - Python이 없는 PC에서도 실행 가능한 프로그램 배포할 때
@@ -102,6 +103,8 @@ pause
 
 > `build.bat`은 `md-link-gen.py`와 같은 폴더에 저장. `%~dp0` 덕분에 어디서 실행해도 경로 자동 이동.
 
+- 파일
+	![[build.bat]]
 ##### 실행 화면 · 결과
 
 빌드 성공 시 `dist/` 폴더 안에 `MD Link Gen.exe` 생성 (약 30~50MB). 해당 exe 파일 하나만 어디든 옮겨서 단독 실행 가능.
