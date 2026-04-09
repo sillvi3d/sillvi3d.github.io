@@ -33,8 +33,8 @@ jobs:
       - name: Reddit 크롤링 & 요약 실행
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python blog/scripts/reddit_digest.py
-        working-directory: obsidian-vault
+        run: python ${{ github.workspace }}/blog/scripts/reddit_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
 
       - name: obsidian-vault 커밋 & 푸시
         working-directory: obsidian-vault
