@@ -6,11 +6,11 @@ title: (강의) Pixlways Part.2
 링크 : [pixlway](https://youtube.com/shorts/vMVr58gYp9Q?si=P57Yam_kcmAqthP6)
 
 #blender
-##### 한 줄 요약
+## 한 줄 요약
 
-##### 핵심 내용
+## 핵심 내용
 
-##### `F vs J vs K`
+### `F vs J vs K`
 - F - **Fill 
 	- 선택한 버텍스나 엣지를 기준으로 채워주는 기능인데 상황에 따라 다르게 동작합니다.
 		- **버텍스 2개 선택 시** → 두 버텍스 사이에 엣지 생성
@@ -32,7 +32,7 @@ title: (강의) Pixlways Part.2
 - K - knife
 	- 아예 칼로 자름. 확실하게 vertex 쪼개짐
 
-###### `bevel 코너 처리 방법`
+### `bevel 코너 처리 방법`
 
 **Miter Outer / Inner**
 - 코너 처리 방식
@@ -44,7 +44,7 @@ title: (강의) Pixlways Part.2
 		- 둥근 코너에 사용하기 좋음
 			<img src="/3D/Blender/assets/Pasted_image_20260405233239.png" width="200" />
 
-##### 따라한 것 · 실습
+## 따라한 것 · 실습
 
 1. k > c하면 뒷면까지 잘림
 	- xray 모드에서 위쪽 절반 face 삭제
@@ -69,10 +69,10 @@ title: (강의) Pixlways Part.2
 10. J로 면 정리
 	<img src="/3D/Blender/assets/Pasted_image_20260405234508.png" width="200" />
 
-##### 내가 추가로 발견한 것
+## 내가 추가로 발견한 것
 
 - 
 
-##### 모르는 것 · 나중에 확인
+## 모르는 것 · 나중에 확인
 
 - 
