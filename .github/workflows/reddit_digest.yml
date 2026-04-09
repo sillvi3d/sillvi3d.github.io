@@ -3,15 +3,24 @@ name: ComfyUI Reddit Daily Digest
 on:
   schedule:
     - cron: "0 0 * * *"   # 매일 오전 9시 KST (= UTC 00:00)
-  workflow_dispatch:        # 수동 실행 버튼도 활성화
+  workflow_dispatch:
 
 jobs:
   digest:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 저장소 체크아웃
+      - name: sillvi3d.github.io 체크아웃 (스크립트용)
         uses: actions/checkout@v4
+        with:
+          path: blog
+
+      - name: obsidian-vault 체크아웃
+        uses: actions/checkout@v4
+        with:
+          repository: sillvi3d/obsidian-vault
+          token: ${{ secrets.PAT_TOKEN }}
+          path: obsidian-vault
 
       - name: Python 설정
         uses: actions/setup-python@v5
@@ -23,13 +32,15 @@ jobs:
 
       - name: Reddit 크롤링 & 요약 실행
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 자동 제공 — 등록 불필요
-        run: python scripts/reddit_digest.py
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python blog/scripts/reddit_digest.py
+        working-directory: obsidian-vault
 
-      - name: 변경사항 커밋 & 푸시
+      - name: obsidian-vault 커밋 & 푸시
+        working-directory: obsidian-vault
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/ComfyUI-Daily/
+          git add 0_Blog/AI/ComfyUI/Daily/
           git diff --staged --quiet || git commit -m "📰 ComfyUI Daily Digest $(date +'%Y-%m-%d')"
           git push
