@@ -8,9 +8,10 @@ title: (강의) Pixlways Part.1
 #blender
 ## 한 줄 요약
 
+
 ## 핵심 내용
 
-- 
+- flat한 부분은 N곤이 있어도 괜찮다.
 ## 따라한 것 · 실습
 
 1. edge loop 만들고 bevel
