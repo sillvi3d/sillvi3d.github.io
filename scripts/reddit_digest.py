@@ -93,14 +93,14 @@ def summarize(flair: str, posts: list[dict]) -> str:
 
 
 def build_markdown(summaries: dict[str, tuple[str, list]]) -> str:
+    title = f"ComfyUI Reddit Daily — {today_str}"
     lines = [
         "---",
-        f"title: ComfyUI Daily — {today_str}",
+        f"title: {title}",
         f"date: {today_str}",
         "tags: [comfyui, reddit, daily]",
         "---",
         "",
-        f"# ComfyUI Reddit Daily — {today_str}",
         f"> 자동 생성: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
         "",
     ]
