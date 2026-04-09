@@ -124,7 +124,7 @@ SUMMARY
 │ 이 영상은 ...에 대해 설명합니다. ...      │
 └─────────────────────────────────────────┘
 ```
-<img src="/Programing/Claude/assets/Pasted_image_20260408110430.png" width="300" />
+<img src="/Programing/Vibe-Coding/assets/Pasted_image_20260408110430.png" width="300" />
 
 - Generate 결과 및 Summary 결과 모두 자동으로 클립보드 복사
 - 각 박스 우측 `📋 복사` 버튼으로 개별 재복사 가능
