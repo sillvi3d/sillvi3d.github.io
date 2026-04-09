@@ -18,6 +18,15 @@ const config: QuartzConfig = {
     },
     locale: "en-US",
     baseUrl: "sillvi3d.github.io",
+    head: [
+      {
+        tag: "meta",
+        attrs: {
+          name: "google-site-verification",
+          content: "googlec373d631488ad094",
+        },
+      },
+    ],
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
