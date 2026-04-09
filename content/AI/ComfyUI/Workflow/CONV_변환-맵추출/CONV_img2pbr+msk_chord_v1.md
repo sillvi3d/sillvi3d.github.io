@@ -5,7 +5,7 @@ title: CONV_img2pbr+msk_chord_v1
 날짜 : 26.04.05
 
 #Ubisoft #chord 
-##### 한 줄 요약
+## 한 줄 요약
 - Input 이미지를 pbr 변환함 (상단 5개)
 - Image를 1024로 변환한 뒤 bg 제거한 png와 마스크 추출 (하단 2개)
 
@@ -16,7 +16,7 @@ title: CONV_img2pbr+msk_chord_v1
 `이미지`
 
 <img src="/AI/ComfyUI/Workflow/CONV_변환-맵추출/assets/Pasted_image_20260405181347.png" width="300" />
-##### 주요 커스텀 노드/모델/로라
+## 주요 커스텀 노드/모델/로라
 
 - chord 엔진
 	- [관련 문서 - # Ubisoft Open-Sources the CHORD Model and ComfyUI Nodes for End-to-End PBR Material Generation](https://blog.comfy.org/p/ubisoft-open-sources-the-chord-model)
@@ -35,7 +35,7 @@ title: CONV_img2pbr+msk_chord_v1
 	- 텍스트 인코더 - qwen_3_4b 텍스트 인코더
 		- models/text_encoders/
 
-##### 흐름
+## 흐름
 
 1. 먼저 제공된 [예시 워크플로우](https://github.com/ubisoft/ComfyUI-Chord/blob/main/example_workflows/chord_zimage_turbo_t2i_image_to_material.json)를 다운받아 컴피에서 불러오고 필요한 노드 install
 2. 허깅페이스에서 chord 전용 엔진을 다운로드
@@ -46,16 +46,16 @@ title: CONV_img2pbr+msk_chord_v1
 	- ComfyUI/models/checkpoints/chord_v1.safetensors
 4. 나머지는 Comfy manager의 도움을 받아 완성
 
-##### 핵심 설정값
+## 핵심 설정값
 
 | 항목  | 값   |
 | --- | --- |
 |     |     |
 
-##### 결과물 · 샘플
+## 결과물 · 샘플
 
 [chord_zimage_turbo_i2i_image_to_material_final.json](/AI/ComfyUI/Workflow/CONV_변환-맵추출/assets/chord_zimage_turbo_i2i_image_to_material_final.json)
-##### 특이사항
+## 특이사항
 - 만약 1번 딴에서 진행이 안된다면
 	- Vram 용량이 꽉 찬 것임
 		- 이미지 사이즈나

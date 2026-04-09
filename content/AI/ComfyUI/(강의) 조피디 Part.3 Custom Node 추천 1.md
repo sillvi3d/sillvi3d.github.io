@@ -5,11 +5,11 @@ title: (강의) 조피디 Part.3 Custom Node 추천 1
 날짜 : 26.04.06
 링크 : [comfyUI 완벽 가이드 강의 Part.3 Custom Node 추천]([https://www.youtube.com/@jopdlab](https://youtu.be/U0hV2UEGo_0?si=JgjCuCRWo65eeJ4c))
 
-##### 한 줄 요약
+## 한 줄 요약
 
 - 
 
-##### 핵심 내용
+## 핵심 내용
 
 1. Custom Script
 2. WD14 Tagger
@@ -17,7 +17,7 @@ title: (강의) 조피디 Part.3 Custom Node 추천 1
 4. KJNode
 5. Use Everywhere
 
-##### 따라한 것 · 실습
+## 따라한 것 · 실습
 
 - 커스텀 노드 설치방법
 
@@ -110,7 +110,7 @@ title: (강의) 조피디 Part.3 Custom Node 추천 1
 					<img src="/AI/ComfyUI/assets/Pasted_image_20260406232130.png" width="200" />
 
 
-##### 내가 추가로 발견한 것
+## 내가 추가로 발견한 것
 
 - ComfyUI가 업데이트 되면서 Convert Widget to input 기능이 사라졌다.
 	- 기존) 노드 우클릭 > convert를 해야 해당 노드에 인풋을 받을 수 있도록 노드가 바뀌었는데
@@ -120,6 +120,6 @@ title: (강의) 조피디 Part.3 Custom Node 추천 1
 - rgthree 현재 가장 최신 버전 다운로드시 관련 노드들이 뜨지 않는데 1.0.2511~ 버전을 사용해보자
 	- [관련 레딧](https://www.reddit.com/r/comfyui/comments/1mslljs/clean_and_fresh_install_of_confyui_fast_groups/?show=original)있는 것보니 꽤나 일어나는 이슈인 것 같다.
 
-##### 모르는 것 · 나중에 확인
+## 모르는 것 · 나중에 확인
 
 - 

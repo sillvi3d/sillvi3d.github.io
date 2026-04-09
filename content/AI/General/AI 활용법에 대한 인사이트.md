@@ -8,7 +8,7 @@ title: AI 활용법에 대한 인사이트
 - [스탠포드에서 빅테크로 조용히 퍼지는 개발자 생존법, 대부분 모릅니다 | 미하일 에릭](https://youtu.be/qEF-eUaTq0Y?si=rb2asTr8PbFzytfX)
 
   
-##### 기록할 것
+## 기록할 것
 
 - AI에게 맥락을 주고 시작해야 한다. Context를 제공한 AI와 제공하지 않은 AI의 차이를 생각해보자
 	- Action Point: 가이드 체계 구축

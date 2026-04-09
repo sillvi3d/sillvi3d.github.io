@@ -4,15 +4,15 @@ title: (강의) 조피디 Part.4 로라 사용법 + Concept Slider LoRA
 
 날짜 : 26.04.08
 링크 : [ComfyUI 완벽 가이드 강의 Part.4 로라 사용법 + Concept Slider LoRA](https://youtu.be/6m41gY2Tr7s?si=n66nB1YA0Dm3Dj0t)
-##### 한 줄 요약
+## 한 줄 요약
 
 - Load LoRA로 로라를 불러올 수 있다
 - 모든 로라는 반드시 베이스 모델을 잘 확인하자
-##### 핵심 내용
+## 핵심 내용
 
 - [[LoRA란 무엇인가]]
 
-##### 따라한 것 · 실습
+## 따라한 것 · 실습
 
 1. 로라는 기본적으로 load loRA 노드를 사용해서 불러올 수 있음
 	- [Add More Details](https://civitai.com/models/82098/add-more-details-detail-enhancer-tweaker-lora) 로라를 사용해 볼 것임
@@ -33,7 +33,7 @@ title: (강의) 조피디 Part.4 로라 사용법 + Concept Slider LoRA
 
 ![[IMG_txt2img_juggerXL_LoRA-compare_v1.png]]
 
-##### 컨셉 슬라이더 로라
+## 컨셉 슬라이더 로라
 - 프롬프트를 수정하지 않고도 원하는 속성을 세밀하게 제어할 수 있는 로라 기술
 	- 다양한 종류가 있고 `이름`+ `Slider` 조합으로 되어있다
 		<img src="/AI/ComfyUI/assets/Pasted_image_20260408094342.png" width="300" />
@@ -56,7 +56,7 @@ title: (강의) 조피디 Part.4 로라 사용법 + Concept Slider LoRA
 
 <img src="/AI/ComfyUI/assets/Pasted_image_20260408175837.png" width="600" />
 <img src="/AI/ComfyUI/assets/Pasted_image_20260408175911.png" width="300" />
-##### 내가 추가로 발견한 것
+## 내가 추가로 발견한 것
 
 - 로라는 2개가 있는데 두번째 것을 선택해야 clip 인풋이 있음
 	- Load LoRA
@@ -78,6 +78,6 @@ title: (강의) 조피디 Part.4 로라 사용법 + Concept Slider LoRA
 |`Auto Queue - change`|**Run (On Change)**|
 |일반 실행|**Run**|
 
-##### 모르는 것 · 나중에 확인
+## 모르는 것 · 나중에 확인
 
 - 

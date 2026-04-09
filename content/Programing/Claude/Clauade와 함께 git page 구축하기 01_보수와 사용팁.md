@@ -2,7 +2,7 @@
 title: Clauade와 함께 git page 구축하기 01_보수와 사용팁
 ---
 
-##### 기본 원리
+## 기본 원리
 - 내 볼트가 있음
 	- 그 볼트 안에 blog에 올릴 전용 폴더를 만듦. 그 안에는 블로그의 카테고리가 될 하위 폴더들을 트리 구조로 넣어놓음 
 	- 내 개인 파일들은 blog 전용 폴더 이외의 공간이라고 생각
@@ -28,7 +28,7 @@ title: Clauade와 함께 git page 구축하기 01_보수와 사용팁
 - 워크플로우 요약
 	<img src="/Programing/Claude/assets/obsidian_blog_workflow_v3.svg" width="300" />
 
-##### 기타 특이사항
+## 기타 특이사항
 - quartz는 구체적인 레이아웃은 변경 안됨. 레이아웃 자체를 건드는 것은 가능은 하나, quartz 업데이트 초기화되는 문제 등은 감수해야 한다고 함.
 	- 틀 안에서 색상과 폰트는 변경 가능. css 건들일 수 있음.
 	- quartz>style>custom 안을 수정

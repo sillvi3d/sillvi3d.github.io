@@ -70,7 +70,7 @@ title: Clauade와 함께 git page 구축하기 00_주말을 갈아 해낸 것들
 	- shell commend의 명령어는 바꿔주어야 함
 		- `py D:\99_Obsidian\obsidian-vault\_config\publish.py`
 
-##### 알게된 것
+## 알게된 것
 
 - 코드를 짤 때 띄워쓰기(공백)에 처리가 필요하다 -> _ 로 변환
 - 클러드에게 파일 경로 알려줄 때 정확하게 알려줘야 한다
@@ -83,7 +83,7 @@ title: Clauade와 함께 git page 구축하기 00_주말을 갈아 해낸 것들
 		- 저장을 할 때 .py 확장자를 붙여주어야 파이선 파일로 생성이 된다.
 		<img src="/Programing/Claude/assets/스크린샷_2026-04-06_093741.png" width="100" />
 
-##### Next step
+## Next step
 이거한다고 주말이 거의 날라갔다. 하지만 정말 뿌듯하다. 예전에도 깃허브 블로그를 도전했던 적이 많은데 매번 git 사용에서부터 막혔었다. 근데 혼자서도 클러드만 있으면 웹사이트를 만들 수 있다. 바이브 코딩도 기초가 있어야 하니 플밍 기초강의를 짬짬히 듣고 있다. 업무적으로도 생산성을 높일 수 있는 응용 프로그램을 만들어보고 싶다.
 
 <img src="/Programing/Claude/assets/Pasted_image_20260405190012.png" width="450" />
