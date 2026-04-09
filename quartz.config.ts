@@ -23,7 +23,7 @@ const config: QuartzConfig = {
         tag: "meta",
         attrs: {
           name: "google-site-verification",
-          content: "googlec373d631488ad094",
+          content: "a2lsjTo72JaTNWz3dQ6uZjoMqrOWGmyCdFPiwOEMLUM",
         },
       },
     ],
