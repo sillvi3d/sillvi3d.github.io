@@ -7,7 +7,7 @@ from datetime import datetime, timezone, timedelta
 SUBREDDIT   = "comfyui"
 FLAIRS      = ["Workflow Included", "News", "Tutorial"]
 FLAIR_EMOJI = {"Workflow Included": "🟢", "News": "🔴", "Tutorial": "🟡"}
-VAULT_PATH  = "content/ComfyUI-Daily"
+VAULT_PATH  = "0_Blog/AI/ComfyUI/Daily"
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS     = {"User-Agent": "Mozilla/5.0 (compatible; comfyui-digest-bot/1.0)"}
 
