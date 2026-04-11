@@ -16,7 +16,7 @@ title: IMG_img2seamless+pbr_juggerXL+chord_v1
 
 `이미지`
 
-![[Pasted image 20260410094240.png]]
+<img src="/AI/ComfyUI/Workflow/IMG_이미지-생성/assets/Pasted_image_20260410094240.png" width="300" />
 ## 입출력
 
 - 입력: 이미지 (JPEG/PNG)
