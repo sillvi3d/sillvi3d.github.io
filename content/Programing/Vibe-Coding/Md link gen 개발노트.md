@@ -3,7 +3,7 @@ title: Md link gen 개발노트
 ---
 
 날짜 : 2026-04-08
-관련 문서: [[Pyinstaller exe 패키징 실전가이드]]
+관련 문서: [[Pyinstaller exe 패키징 개발노트]]
 
 ## 한 줄 설명.
 
