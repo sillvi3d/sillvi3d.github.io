@@ -28,7 +28,27 @@ def llm(prompt: str) -> str:
     return res.json()["choices"][0]["message"]["content"]
 
 
-def fetch_posts(limit: int = 15) -> list[dict]:
+PINNED_KEYWORDS = [
+    "please read", "read before", "read this before",
+    "don't get banned", "do not post", "announcement",
+    "rules", "welcome to", "community highlight",
+]
+
+def is_pinned(title: str, content: str) -> bool:
+    title_lower   = title.lower()
+    content_lower = content.lower()
+    # 공지글 키워드 감지
+    if any(kw in title_lower for kw in PINNED_KEYWORDS):
+        return True
+    # Solved/Unsolved 플레어가 둘 다 없으면 일반 질문글이 아님
+    has_flair = "solved" in title_lower or "solved" in content_lower or \
+                "unsolved" in title_lower or "unsolved" in content_lower
+    if not has_flair:
+        return True
+    return False
+
+
+def fetch_posts(limit: int = 20) -> list[dict]:
     url = f"https://www.reddit.com/r/{SUBREDDIT}/hot.rss?limit={limit}"
     res = requests.get(url, headers=HEADERS, timeout=15)
     res.raise_for_status()
@@ -37,15 +57,20 @@ def fetch_posts(limit: int = 15) -> list[dict]:
     posts = []
     for e in root.findall("atom:entry", ns):
         link    = e.find("atom:link", ns)
+        title   = e.findtext("atom:title", "", ns)
         content = e.findtext("atom:content", "", ns)
-        solved  = "[solved]" in e.findtext("atom:title", "", ns).lower() or \
-                  "solved" in content.lower()
+        if is_pinned(title, content):
+            print(f"    [SKIP 공지] {title[:50]}")
+            continue
+        solved = "solved" in title.lower() or "solved" in content.lower()
         posts.append({
-            "title"  : e.findtext("atom:title", "", ns),
+            "title"  : title,
             "url"    : link.attrib.get("href", "") if link is not None else "",
             "content": content[:400],
             "solved" : solved,
         })
+        if len(posts) >= 15:
+            break
     return posts
 
 
