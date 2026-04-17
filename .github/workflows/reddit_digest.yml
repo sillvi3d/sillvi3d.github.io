@@ -9,6 +9,10 @@
 # v1.5  2026-04-10  obsidian-vault push 전 git pull --rebase 추가
 # v1.6  2026-04-13  스케줄 8시 → 7시 KST
 # v1.7  2026-04-15  월별 폴더 구조 (2026_04/) + 위클리/먼슬리 추가
+# v1.8  2026-04-17  폴더 구조 개편 (AI/Trend/ComfyUI)
+#                   tech_digest.py 추가 (r/technology, r/claude)
+#                   blender_digest.py 추가 (r/blenderhelp)
+#                   stash로 unstaged 충돌 방지
 # ============================================================
 
 name: ComfyUI Reddit Daily Digest
@@ -44,10 +48,22 @@ jobs:
       - name: 의존성 설치
         run: pip install requests
 
-      - name: Reddit 크롤링 & 요약 실행
+      - name: ComfyUI Reddit 크롤링 & 요약
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python ${{ github.workspace }}/blog/scripts/reddit_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: Tech Reddit 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/tech_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: Blender Reddit 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/blender_digest.py
         working-directory: ${{ github.workspace }}/obsidian-vault
 
       - name: obsidian-vault 커밋 & 푸시
@@ -55,22 +71,26 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add 0_Blog/AI/ComfyUI/Reddit/
+          git add 0_Blog/AI/Trend/ComfyUI/ 0_Blog/AI/Trend/AI_Tech/ 0_Blog/3D/Blender/Reddit/
           git stash
           git pull --rebase origin main
           git stash pop
-          git add 0_Blog/AI/ComfyUI/Reddit/
-          git diff --staged --quiet || git commit -m "📰 ComfyUI Daily Digest $(date +'%Y-%m-%d')"
+          git add 0_Blog/AI/Trend/ComfyUI/ 0_Blog/AI/Trend/AI_Tech/ 0_Blog/3D/Blender/Reddit/
+          git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git push
 
       - name: blog content에 복사 & 블로그 발행
         working-directory: blog
         run: |
-          mkdir -p content/AI/ComfyUI/Daily
-          cp -r ../obsidian-vault/0_Blog/AI/ComfyUI/Daily/. content/AI/ComfyUI/Daily/ 2>/dev/null || true
+          mkdir -p content/AI/Trend/ComfyUI
+          mkdir -p content/AI/Trend/AI_Tech
+          mkdir -p content/3D/Blender/Reddit
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/ComfyUI/. content/AI/Trend/ComfyUI/ 2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/AI_Tech/. content/AI/Trend/AI_Tech/ 2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/3D/Blender/Reddit/. content/3D/Blender/Reddit/ 2>/dev/null || true
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main
-          git add content/AI/ComfyUI/Daily/
-          git diff --staged --quiet || git commit -m "📰 ComfyUI Daily Digest $(date +'%Y-%m-%d')"
+          git add content/AI/Trend/ content/3D/Blender/Reddit/
+          git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git push
