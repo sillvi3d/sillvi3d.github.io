@@ -5,13 +5,13 @@ title: (문제 해결) SAM3 마스크 외곽 fringe 제거
 ## 상황
 
 ComfyUI에서 SAM3 Text Segmentation(comfyui-sam3)으로 은행잎 이미지의 마스크를 추출한 뒤, JoinImageWithAlpha로 배경을 제거했을 때 잎 외곽에 초록색 찌꺼기(fringe)가 남는 문제.
-![[Pasted image 20260416105454.png]]
-![[Pasted image 20260416105502.png|200]]
+<img src="/AI/ComfyUI/assets/Pasted_image_20260416105454.png" width="300" />
+<img src="/AI/ComfyUI/assets/Pasted_image_20260416105502.png" width="200" />
 - 사용 노드: (Down)Load SAM3 Model → SAM3 Text Segmentation → InvertMask → Blur Mask → JoinImageWithAlpha → Save Image
 - text_prompt: "plant leaf with stem"
 - confidence_threshold: 0.20
 - GrowMask(expand: -3)로 수축시켜봤으나, 잎 전체가 깎여서 디테일이 손실됨
-![[Pasted image 20260416105519.png|200]]
+<img src="/AI/ComfyUI/assets/Pasted_image_20260416105519.png" width="200" />
 ## 원인
 
 SAM3는 세그멘테이션(영역 분류)에 특화된 모델이라, 마스크 경계가 픽셀 단위로 딱딱하게 잘림. 잎 끝처럼 얇고 복잡한 외곽선에서는 경계 픽셀에 배경색이 섞여 fringe가 발생함. GrowMask로 마스크를 수축시키면 찌꺼기뿐 아니라 잎 본체까지 함께 깎여 근본적 해결이 안 됨.
