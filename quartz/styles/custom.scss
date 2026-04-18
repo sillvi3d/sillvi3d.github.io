@@ -75,3 +75,11 @@ article img {
   display: block;
   margin: 0.5em 0;
 }
+
+/* ==========================================
+   목록 페이지 태그 3개만 노출
+   ========================================== */
+
+.page-listing .tags li:nth-child(n+4) {
+  display: none;
+}
