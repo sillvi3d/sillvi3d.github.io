@@ -42,7 +42,12 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ContentMeta(),
     Component.TagList(),
     Component.ConditionalRender({
-      component: Component.RecentNotes({ title: "최근 글", limit: 5, showTags: false }),
+      component: Component.RecentNotes({
+        title: "최근 글",
+        limit: 5,
+        showTags: false,
+        filter: (f) => f.slug !== "index",
+      }),
       condition: (page) => page.fileData.slug === "index",
     }),
   ],
