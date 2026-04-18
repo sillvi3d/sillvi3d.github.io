@@ -11,7 +11,7 @@ export const sharedPageComponents: SharedLayout = {
         title: "최근 글",
         limit: 5,
         showTags: false,
-        filter: (f) => f.slug !== "index",
+        filter: (f) => !f.slug.endsWith("index"),
       }),
       condition: (page) => page.fileData.slug === "index",
     }),
