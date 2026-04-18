@@ -14,7 +14,7 @@ KST        = timezone(timedelta(hours=9))
 now_kst    = datetime.now(KST)
 today_str  = now_kst.strftime("%Y-%m-%d")
 year_month = now_kst.strftime("%Y_%m")          # 예: 2026_04
-VAULT_BASE = "0_Blog/AI/ComfyUI/Reddit"
+VAULT_BASE = "0_Blog/AI/Trend/ComfyUI"
 VAULT_PATH = f"{VAULT_BASE}/{year_month}"       # 예: 0_Blog/AI/ComfyUI/Daily/2026_04
 # ─────────────────────────────────────────────────
 
