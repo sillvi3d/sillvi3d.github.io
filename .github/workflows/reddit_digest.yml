@@ -86,14 +86,14 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git reset --hard origin/main
           git add 0_Blog/AI/Trend/ComfyUI/ \
                   0_Blog/AI/Trend/AI_Tech/ \
+                  0_Blog/AI/Trend/News/ \
                   0_Blog/3D/Blender_Help/ \
-                  0_Blog/3D/Blender/Blender_General/ \
-                  0_Blog/Life/News/
+                  0_Blog/3D/Blender/Blender_General/
           git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
+          git fetch origin main
+          git rebase origin/main
           git push
 
       - name: blog content에 복사 & 블로그 발행
@@ -105,14 +105,14 @@ jobs:
           git reset --hard origin/main
           mkdir -p content/AI/Trend/ComfyUI
           mkdir -p content/AI/Trend/AI_Tech
+          mkdir -p content/AI/Trend/News
           mkdir -p content/3D/Blender_Help
           mkdir -p content/3D/Blender/Blender_General
-          mkdir -p content/Life/News
-          cp -r ../obsidian-vault/0_Blog/AI/Trend/ComfyUI/.        content/AI/Trend/ComfyUI/        2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/AI/Trend/AI_Tech/.        content/AI/Trend/AI_Tech/        2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/3D/Blender_Help/.         content/3D/Blender_Help/         2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/3D/Blender/Blender_General/. content/3D/Blender/Blender_General/ 2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/Life/News/.               content/Life/News/               2>/dev/null || true
-          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/ content/Life/News/
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/ComfyUI/.            content/AI/Trend/ComfyUI/            2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/AI_Tech/.            content/AI/Trend/AI_Tech/            2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/News/.               content/AI/Trend/News/               2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/3D/Blender_Help/.             content/3D/Blender_Help/             2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/3D/Blender/Blender_General/.  content/3D/Blender/Blender_General/  2>/dev/null || true
+          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/
           git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git push
