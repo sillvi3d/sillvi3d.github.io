@@ -3,23 +3,39 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 
 # ── 설정 ──────────────────────────────────────────
-SUBREDDIT    = "blenderhelp"
+SUBREDDIT    = "blender"
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; blender-digest-bot/1.0)"}
-VAULT_BASE   = "0_Blog/3D/Blender_Help"
+HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; blender-general-digest-bot/1.0)"}
+VAULT_BASE   = "0_Blog/3D/Blender/Blender_General"
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
+
+FLAIRS = [
+    "Critique my work",
+    "Original content showcase",
+    "Discussion",
+    "Free tools & Assets",
+    "Need help!",
+]
+FLAIR_EMOJI = {
+    "Critique my work"          : "🎨",
+    "Original content showcase" : "✨",
+    "Discussion"                : "💬",
+    "Free tools & Assets"       : "🛠️",
+    "Need help!"                : "🆘",
+}
+FLAIR_LIMIT = {
+    "Critique my work"          : 3,
+    "Original content showcase" : 5,
+    "Discussion"                : 3,
+    "Free tools & Assets"       : 3,
+    "Need help!"                : 3,
+}
 
 KST        = timezone(timedelta(hours=9))
 now_kst    = datetime.now(KST)
 today_str  = now_kst.strftime("%Y-%m-%d")
 year_month = now_kst.strftime("%Y_%m")
 VAULT_PATH = f"{VAULT_BASE}/{year_month}"
-
-PINNED_KEYWORDS = [
-    "please read", "read before", "read this before",
-    "don't get banned", "do not post", "announcement",
-    "rules", "welcome to", "community highlight", "mod post",
-]
 # ─────────────────────────────────────────────────
 
 
@@ -34,97 +50,85 @@ def llm(prompt: str) -> str:
     return res.json()["choices"][0]["message"]["content"]
 
 
-def is_pinned(title: str) -> bool:
-    return any(kw in title.lower() for kw in PINNED_KEYWORDS)
-
-
-def fetch_posts(limit: int = 20) -> list[dict]:
-    url = f"https://www.reddit.com/r/{SUBREDDIT}/hot.rss?limit={limit}"
+def fetch_posts(flair: str, limit: int = 10) -> list[dict]:
+    url = (
+        f"https://www.reddit.com/r/{SUBREDDIT}/search.rss"
+        f"?q=flair%3A%22{flair.replace(' ', '+').replace('&', '%26').replace('!', '%21')}%22"
+        f"&restrict_sr=1&sort=new&limit={limit}"
+    )
     res = requests.get(url, headers=HEADERS, timeout=15)
     res.raise_for_status()
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
     root = ET.fromstring(res.text)
     posts = []
     for e in root.findall("atom:entry", ns):
-        link    = e.find("atom:link", ns)
-        title   = e.findtext("atom:title", "", ns)
-        content = e.findtext("atom:content", "", ns)
-        if is_pinned(title):
-            print(f"    [SKIP 공지] {title[:50]}")
-            continue
-        solved = "solved" in title.lower() or "solved" in content.lower()
+        link = e.find("atom:link", ns)
         posts.append({
-            "title"  : title,
+            "title"  : e.findtext("atom:title", "", ns),
             "url"    : link.attrib.get("href", "") if link is not None else "",
-            "content": content[:400],
-            "solved" : solved,
+            "content": e.findtext("atom:content", "", ns)[:400],
         })
-        if len(posts) >= 15:
-            break
-    return posts
+    return posts[:FLAIR_LIMIT[flair]]
 
 
-# ── DAILY ─────────────────────────────────────────
-def run_daily():
-    os.makedirs(VAULT_PATH, exist_ok=True)
-    print(f"[r/blenderhelp] 크롤링 중...")
-    posts = fetch_posts()
-    print(f"  → {len(posts)}개 수집")
-    summary = summarize_daily(posts)
-    md   = build_daily_md(posts, summary)
-    path = os.path.join(VAULT_PATH, f"{today_str}.md")
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(md)
-    print(f"✅ 블렌더헬프 데일리 저장: {path}")
-
-
-def summarize_daily(posts: list) -> str:
+def summarize_flair(flair: str, posts: list) -> str:
     if not posts:
-        return "_오늘 수집된 글이 없습니다._"
+        return "_해당 플레어의 글이 없습니다._"
     posts_txt = "\n\n".join(
-        f"[{i+1}] {'[Solved]' if p['solved'] else '[Unsolved]'} {p['title']}\n"
-        f"URL: {p['url']}\n내용: {p['content'] or '(링크 글)'}"
+        f"[{i+1}] {p['title']}\nURL: {p['url']}\n내용: {p['content'] or '(이미지/링크 글)'}"
         for i, p in enumerate(posts)
     )
-    return llm(f"""아래는 Reddit r/blenderhelp의 오늘 HOT 글 목록입니다.
+    limit = FLAIR_LIMIT[flair]
+    return llm(f"""Reddit r/blender [{flair}] 최근 글 목록:
 
 {posts_txt}
 
 한국어로 정리해주세요:
 
-## 🔥 오늘의 주요 이슈
-* (전체 트렌드 1)
-* (전체 트렌드 2)
-* (전체 트렌드 3)
-
----
-
-## 🟠 오늘의 HOT 질문 Top 5
-각 글에 대해 다음 형식으로:
-
-### N. 🟢 Solved 또는 🔴 Unsolved
-**[제목](URL)**
-> 한두 줄 내용 요약
-
----
-
-## 💡 오늘의 키워드
-#키워드1 #키워드2 #키워드3""")
+1. **주요 트렌드** (2~3줄)
+2. **주목할 만한 글** (상위 {limit}개, 한 줄 소개 + URL)
+3. **오늘의 키워드** (#태그 형식)""")
 
 
-def build_daily_md(posts: list, summary: str) -> str:
-    return "\n".join([
+def build_daily_md(summaries: dict) -> str:
+    lines = [
         "---",
-        f"title: Blender Help Daily — {today_str}",
+        f"title: Blender General Daily — {today_str}",
         f"date: {today_str}",
         "tags: [blender, 3d, reddit, daily]",
         "---",
         "",
         f"> 자동 생성: {now_kst.strftime('%Y-%m-%d %H:%M')} KST",
-        f"_수집된 글: {len(posts)}개_",
         "",
-        summary,
-    ])
+    ]
+    for flair, (summary, posts) in summaries.items():
+        emoji = FLAIR_EMOJI[flair]
+        lines += [
+            f"## {emoji} {flair}",
+            f"_수집된 글: {len(posts)}개_",
+            "",
+            summary,
+            "",
+            "---",
+            "",
+        ]
+    return "\n".join(lines)
+
+
+# ── DAILY ─────────────────────────────────────────
+def run_daily():
+    os.makedirs(VAULT_PATH, exist_ok=True)
+    summaries = {}
+    for flair in FLAIRS:
+        print(f"[r/blender {flair}] 크롤링 중...")
+        posts = fetch_posts(flair)
+        print(f"  → {len(posts)}개 수집")
+        summaries[flair] = (summarize_flair(flair, posts), posts)
+    md   = build_daily_md(summaries)
+    path = os.path.join(VAULT_PATH, f"{today_str}.md")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(md)
+    print(f"✅ 블렌더 제너럴 데일리 저장: {path}")
 
 
 # ── WEEKLY ────────────────────────────────────────
@@ -136,15 +140,15 @@ def run_weekly():
     date_range = f"{monday.strftime('%Y-%m-%d')} ~ {today_str}"
     contents   = read_daily_files(monday, now_kst)
     if not contents:
-        print("⚠️ 블렌더헬프 위클리: 데일리 파일 없음")
+        print("⚠️ 블렌더 제너럴 위클리: 데일리 파일 없음")
         return
-    print(f"[BlenderHelp Weekly {week_label}] 요약 중...")
+    print(f"[Blender General Weekly {week_label}] 요약 중...")
     summary = summarize_period(contents, "주간", date_range)
-    md = build_period_md(f"Blender Help Weekly — {week_label}", "[blender, 3d, reddit, weekly]", date_range, summary)
+    md = build_period_md(f"Blender General Weekly — {week_label}", "[blender, 3d, reddit, weekly]", date_range, summary)
     path = os.path.join(VAULT_PATH, f"{week_label}.md")
     with open(path, "w", encoding="utf-8") as f:
         f.write(md)
-    print(f"✅ 블렌더헬프 위클리 저장: {path}")
+    print(f"✅ 블렌더 제너럴 위클리 저장: {path}")
 
 
 # ── MONTHLY ───────────────────────────────────────
@@ -155,15 +159,15 @@ def run_monthly():
     date_range  = f"{month_start.strftime('%Y-%m-%d')} ~ {today_str}"
     contents    = read_daily_files(month_start, now_kst)
     if not contents:
-        print("⚠️ 블렌더헬프 먼슬리: 데일리 파일 없음")
+        print("⚠️ 블렌더 제너럴 먼슬리: 데일리 파일 없음")
         return
-    print(f"[BlenderHelp Monthly {month_label}] 요약 중...")
+    print(f"[Blender General Monthly {month_label}] 요약 중...")
     summary = summarize_period(contents, "월간", date_range)
-    md = build_period_md(f"Blender Help Monthly — {month_label}", "[blender, 3d, reddit, monthly]", date_range, summary)
+    md = build_period_md(f"Blender General Monthly — {month_label}", "[blender, 3d, reddit, monthly]", date_range, summary)
     path = os.path.join(VAULT_PATH, f"{month_label}.md")
     with open(path, "w", encoding="utf-8") as f:
         f.write(md)
-    print(f"✅ 블렌더헬프 먼슬리 저장: {path}")
+    print(f"✅ 블렌더 제너럴 먼슬리 저장: {path}")
 
 
 # ── 공통 유틸 ─────────────────────────────────────
@@ -181,27 +185,56 @@ def read_daily_files(start: datetime, end: datetime) -> str:
 
 
 def summarize_period(contents: str, period: str, date_range: str) -> str:
-    return llm(f"""아래는 r/blenderhelp {period} 데일리 요약 모음입니다 ({date_range}).
+    return llm(f"""아래는 r/blender {period} 데일리 요약 모음입니다 ({date_range}).
 
 {contents[:8000]}
 
 다음 형식으로 한국어 정리:
 
-## 🔥 트렌드 3줄 요약
+## 트렌드 3줄 요약
 * (트렌드 1)
 * (트렌드 2)
 * (트렌드 3)
 
 ---
 
-## 🟠 가장 많이 등장한 문제 Top 5
-### N. 🟢/🔴 제목
-> 문제 요약 및 해결 여부
+## 🎨 Critique my work
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드
 
 ---
 
-## 💡 {period} 키워드
-#키워드1 #키워드2 #키워드3""")
+## ✨ Original content showcase
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 5
+* 제목 — URL
+### 3. {period} 키워드
+
+---
+
+## 💬 Discussion
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드
+
+---
+
+## 🛠️ Free tools & Assets
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드
+
+---
+
+## 🆘 Need help!
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드""")
 
 
 def build_period_md(title: str, tags: str, date_range: str, summary: str) -> str:
@@ -222,10 +255,10 @@ def build_period_md(title: str, tags: str, date_range: str, summary: str) -> str
 def main():
     run_daily()
     if now_kst.weekday() == 6:
-        print("\n[일요일] 블렌더헬프 위클리 실행")
+        print("\n[일요일] 블렌더 제너럴 위클리 실행")
         run_weekly()
     if now_kst.day == 28:
-        print("\n[28일] 블렌더헬프 먼슬리 실행")
+        print("\n[28일] 블렌더 제너럴 먼슬리 실행")
         run_monthly()
 
 
