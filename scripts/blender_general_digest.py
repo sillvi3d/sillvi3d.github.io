@@ -39,6 +39,10 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"
 # ─────────────────────────────────────────────────
 
 
+def sanitize(text: str) -> str:
+    return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
+
+
 def llm(prompt: str) -> str:
     res = requests.post(
         "https://models.inference.ai.azure.com/chat/completions",
@@ -47,7 +51,11 @@ def llm(prompt: str) -> str:
         timeout=60,
     )
     res.raise_for_status()
-    return res.json()["choices"][0]["message"]["content"]
+    data = res.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError):
+        return f"_요약 실패: {str(data)[:200]}_"
 
 
 def fetch_posts(flair: str, limit: int = 10) -> list[dict]:
@@ -64,9 +72,9 @@ def fetch_posts(flair: str, limit: int = 10) -> list[dict]:
     for e in root.findall("atom:entry", ns):
         link = e.find("atom:link", ns)
         posts.append({
-            "title"  : e.findtext("atom:title", "", ns),
+            "title"  : sanitize(e.findtext("atom:title", "", ns)),
             "url"    : link.attrib.get("href", "") if link is not None else "",
-            "content": e.findtext("atom:content", "", ns)[:400],
+            "content": sanitize(e.findtext("atom:content", "", ns)[:400]),
         })
     return posts[:FLAIR_LIMIT[flair]]
 

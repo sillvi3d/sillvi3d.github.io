@@ -33,7 +33,11 @@ def llm(prompt: str) -> str:
         timeout=60,
     )
     res.raise_for_status()
-    return res.json()["choices"][0]["message"]["content"]
+    data = res.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError):
+        return f"_요약 실패: {str(data)[:200]}_"
 
 
 def fetch_posts(subreddit: str, limit: int = 10) -> list[dict]:

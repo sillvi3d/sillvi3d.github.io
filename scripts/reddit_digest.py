@@ -20,6 +20,10 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"       # 예: 0_Blog/AI/ComfyUI/Daily/2
 
 
 # ── LLM 호출 ──────────────────────────────────────
+def sanitize(text: str) -> str:
+    return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
+
+
 def llm(prompt: str) -> str:
     res = requests.post(
         "https://models.inference.ai.azure.com/chat/completions",
@@ -28,7 +32,11 @@ def llm(prompt: str) -> str:
         timeout=60,
     )
     res.raise_for_status()
-    return res.json()["choices"][0]["message"]["content"]
+    data = res.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError):
+        return f"_요약 실패: {str(data)[:200]}_"
 
 
 # ── Reddit RSS 크롤링 ──────────────────────────────
@@ -53,9 +61,9 @@ def fetch_posts(flair: str, since_ts: float) -> list[dict]:
             continue
         link = e.find("atom:link", ns)
         filtered.append({
-            "title"   : e.findtext("atom:title", "", ns),
+            "title"   : sanitize(e.findtext("atom:title", "", ns)),
             "url"     : link.attrib.get("href", "") if link is not None else "",
-            "selftext": e.findtext("atom:content", "", ns)[:500],
+            "selftext": sanitize(e.findtext("atom:content", "", ns)[:500]),
         })
     return filtered
 

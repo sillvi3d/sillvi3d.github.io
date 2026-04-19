@@ -23,6 +23,10 @@ PINNED_KEYWORDS = [
 # ─────────────────────────────────────────────────
 
 
+def sanitize(text: str) -> str:
+    return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
+
+
 def llm(prompt: str) -> str:
     res = requests.post(
         "https://models.inference.ai.azure.com/chat/completions",
@@ -31,7 +35,11 @@ def llm(prompt: str) -> str:
         timeout=60,
     )
     res.raise_for_status()
-    return res.json()["choices"][0]["message"]["content"]
+    data = res.json()
+    try:
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, IndexError):
+        return f"_요약 실패: {str(data)[:200]}_"
 
 
 def is_pinned(title: str) -> bool:
@@ -47,8 +55,8 @@ def fetch_posts(limit: int = 20) -> list[dict]:
     posts = []
     for e in root.findall("atom:entry", ns):
         link    = e.find("atom:link", ns)
-        title   = e.findtext("atom:title", "", ns)
-        content = e.findtext("atom:content", "", ns)
+        title   = sanitize(e.findtext("atom:title", "", ns))
+        content = sanitize(e.findtext("atom:content", "", ns))
         if is_pinned(title):
             print(f"    [SKIP 공지] {title[:50]}")
             continue
