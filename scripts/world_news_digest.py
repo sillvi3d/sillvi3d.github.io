@@ -21,6 +21,10 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"
 # ─────────────────────────────────────────────────
 
 
+def sanitize(text: str) -> str:
+    return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
+
+
 def llm(prompt: str) -> str:
     res = requests.post(
         "https://models.inference.ai.azure.com/chat/completions",
@@ -42,9 +46,9 @@ def fetch_posts(subreddit: str, limit: int = 10) -> list[dict]:
     for e in root.findall("atom:entry", ns):
         link = e.find("atom:link", ns)
         posts.append({
-            "title"  : e.findtext("atom:title", "", ns),
+            "title"  : sanitize(e.findtext("atom:title", "", ns)),
             "url"    : link.attrib.get("href", "") if link is not None else "",
-            "content": e.findtext("atom:content", "", ns)[:300],
+            "content": sanitize(e.findtext("atom:content", "", ns)[:300]),
         })
     return posts
 
@@ -89,19 +93,13 @@ def summarize_news(sr: str, info: dict, posts: list) -> str:
 
 
 def summarize_overall(data: dict) -> str:
-    combined = "\n\n".join(
-        f"[{SUBREDDITS[sr]['label']}]\n" +
-        "\n".join(f"- {p['title']}" for p in d["posts"][:5])
-        for sr, d in data.items()
-    )
-    return llm(f"""오늘의 뉴스/경제 Reddit 주요 글 목록:
-
-{combined}
-
-전체를 아우르는 오늘의 핵심 이슈 3줄 요약:
-* (이슈 1)
-* (이슈 2)
-* (이슈 3)""")
+    titles = []
+    for sr, d in data.items():
+        label = SUBREDDITS[sr]['label']
+        for p in d["posts"][:3]:
+            titles.append(f"[{label}] {p['title']}")
+    combined = "\n".join(titles)
+    return llm(f"다음 뉴스 제목들을 보고 오늘의 핵심 이슈 3줄을 한국어로 요약해주세요. 각 줄은 *로 시작:\n\n{combined}")
 
 
 def build_daily_md(data: dict, overall: str) -> str:
