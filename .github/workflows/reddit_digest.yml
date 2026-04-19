@@ -28,6 +28,9 @@ on:
 jobs:
   digest:
     runs-on: ubuntu-latest
+    concurrency:
+      group: daily-digest
+      cancel-in-progress: false
 
     steps:
       - name: sillvi3d.github.io 체크아웃 (스크립트용)
@@ -102,7 +105,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git fetch origin main
-          git reset --hard origin/main
+          git merge origin/main --no-edit
           mkdir -p content/AI/Trend/ComfyUI
           mkdir -p content/AI/Trend/AI_Tech
           mkdir -p content/AI/Trend/News
@@ -116,9 +119,3 @@ jobs:
           git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/
           git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git push
-
-      - name: Quartz 배포 트리거
-        working-directory: blog
-        run: gh workflow run deploy.yml
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}

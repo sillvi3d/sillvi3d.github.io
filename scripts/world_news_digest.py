@@ -1,4 +1,4 @@
-import os, requests
+import os, requests, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 
@@ -26,6 +26,7 @@ def sanitize(text: str) -> str:
 
 
 def llm(prompt: str) -> str:
+    time.sleep(3)
     res = requests.post(
         "https://models.inference.ai.azure.com/chat/completions",
         headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
