@@ -1,48 +1,118 @@
-name: Deploy Quartz site to GitHub Pages
+# ============================================================
+# Daily Digest Workflow — 버전 기록
+# ------------------------------------------------------------
+# v1.0  2026-04-08  최초 생성. Anthropic API 사용
+# v1.1  2026-04-08  GitHub Models (gpt-4o-mini) 로 전환
+# v1.2  2026-04-09  Reddit JSON → RSS 방식으로 변경 (403 차단 우회)
+# v1.3  2026-04-09  저장 경로: content/ → obsidian-vault + blog 이중 저장
+# v1.4  2026-04-09  스케줄 9시 → 8시 KST
+# v1.5  2026-04-10  obsidian-vault push 전 git pull --rebase 추가
+# v1.6  2026-04-13  스케줄 8시 → 7시 KST
+# v1.7  2026-04-15  월별 폴더 구조 (2026_04/) + 위클리/먼슬리 추가
+# v1.8  2026-04-17  폴더 구조 개편 (AI/Trend/ComfyUI)
+#                   tech_digest.py 추가 (r/technology, r/claude)
+#                   blender_digest.py 추가 (r/blenderhelp)
+# v1.9  2026-04-19  blender_digest.py 공지글 필터 완화, 폴더 → Blender_Help
+#                   blender_general_digest.py 추가 (r/blender 플레어 필터)
+#                   world_news_digest.py 추가 (r/news, r/worldnews, r/economy)
+#                   fetch+reset 방식으로 충돌 방지 강화
+# ============================================================
 
-env:
-  JEKYLL_BUILD: false
+name: Daily Digest
 
 on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  schedule:
+    - cron: "0 22 * * *"  # 매일 오전 7시 KST (= UTC 22:00)
+  workflow_dispatch:
 
 jobs:
-  build:
+  digest:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install Dependencies
-        run: npm ci
-      - name: Build Quartz
-        run: npx quartz build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
 
-  deploy:
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: sillvi3d.github.io 체크아웃 (스크립트용)
+        uses: actions/checkout@v4
+        with:
+          path: blog
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: obsidian-vault 체크아웃
+        uses: actions/checkout@v4
+        with:
+          repository: sillvi3d/obsidian-vault
+          token: ${{ secrets.PAT_TOKEN }}
+          path: obsidian-vault
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 의존성 설치
+        run: pip install requests
+
+      - name: ComfyUI Reddit 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/reddit_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: Tech Reddit 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/tech_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: Blender Help 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/blender_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: Blender General 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/blender_general_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: World News 크롤링 & 요약
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python ${{ github.workspace }}/blog/scripts/world_news_digest.py
+        working-directory: ${{ github.workspace }}/obsidian-vault
+
+      - name: obsidian-vault 커밋 & 푸시
+        working-directory: obsidian-vault
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 0_Blog/AI/Trend/ComfyUI/ \
+                  0_Blog/AI/Trend/AI_Tech/ \
+                  0_Blog/AI/Trend/News/ \
+                  0_Blog/3D/Blender_Help/ \
+                  0_Blog/3D/Blender/Blender_General/
+          git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
+          git fetch origin main
+          git rebase origin/main
+          git push
+
+      - name: blog content에 복사 & 블로그 발행
+        working-directory: blog
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git merge origin/main --no-edit
+          mkdir -p content/AI/Trend/ComfyUI
+          mkdir -p content/AI/Trend/AI_Tech
+          mkdir -p content/AI/Trend/News
+          mkdir -p content/3D/Blender_Help
+          mkdir -p content/3D/Blender/Blender_General
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/ComfyUI/.            content/AI/Trend/ComfyUI/            2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/AI_Tech/.            content/AI/Trend/AI_Tech/            2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/AI/Trend/News/.               content/AI/Trend/News/               2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/3D/Blender_Help/.             content/3D/Blender_Help/             2>/dev/null || true
+          cp -r ../obsidian-vault/0_Blog/3D/Blender/Blender_General/.  content/3D/Blender/Blender_General/  2>/dev/null || true
+          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/
+          git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
+          git push
