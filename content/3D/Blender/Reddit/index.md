@@ -1,5 +1,0 @@
----
-title: Reddit
----
-
-# Reddit
