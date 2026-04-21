@@ -16,13 +16,17 @@
 #                   blender_general_digest.py 추가 (r/blender 플레어 필터)
 #                   world_news_digest.py 추가 (r/news, r/worldnews, r/economy)
 #                   fetch+reset 방식으로 충돌 방지 강화
+# v2.0  2026-04-22  스케줄 7시 → 6시 KST
+#                   .last_digest 더미 커밋으로 스케줄 안정화
+#                   concurrency 설정으로 동시 실행 방지
+#                   rate limit 딜레이 추가 (time.sleep)
 # ============================================================
 
 name: Daily Digest
 
 on:
   schedule:
-    - cron: "0 22 * * *"  # 매일 오전 7시 KST (= UTC 22:00)
+    - cron: "0 21 * * *"  # 매일 오전 6시 KST (= UTC 21:00)
   workflow_dispatch:
 
 jobs:
@@ -116,6 +120,7 @@ jobs:
           cp -r ../obsidian-vault/0_Blog/AI/Trend/News/.               content/AI/Trend/News/               2>/dev/null || true
           cp -r ../obsidian-vault/0_Blog/3D/Blender_Help/.             content/3D/Blender_Help/             2>/dev/null || true
           cp -r ../obsidian-vault/0_Blog/3D/Blender/Blender_General/.  content/3D/Blender/Blender_General/  2>/dev/null || true
-          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/
-          git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
+          echo "$(date +'%Y-%m-%d %H:%M')" > .last_digest
+          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/ .last_digest
+          git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git push
