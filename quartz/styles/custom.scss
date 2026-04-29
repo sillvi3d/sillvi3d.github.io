@@ -1,91 +1,85 @@
-import { PageLayout, SharedLayout } from "./quartz/cfg"
-import * as Component from "./quartz/components"
+@use "./base.scss";
 
-// components shared across all pages
-export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(),
-  header: [],
-  afterBody: [
-    Component.ConditionalRender({
-      component: Component.Comments({
-        provider: "giscus",
-        options: {
-          repo: "sillvi3d/sillvi3d.github.io",
-          repoId: "R_kgDOR5SDww",
-          category: "General",
-          categoryId: "DIC_kwDOR5SDw84C6Cfn",
-          mapping: "pathname",
-          strict: false,
-          reactionsEnabled: true,
-          inputPosition: "bottom",
-        },
-      }),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-  ],
-  footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
-    },
-  }),
+.explorer-ul .nav-file-title-content {
+  font-size: 0.4rem !important;
 }
 
-// components for pages that display a single page (e.g. a single note)
-export const defaultContentPageLayout: PageLayout = {
-  beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
-  ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    Component.RecentNotes({
-      title: "Recent Notes",
-      limit: 4,
-      showTags: false,
-      filter: (f) => !f.slug.endsWith("index"),
-    }),
-    Component.Explorer(),
-  ],
-  right: [
-    Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
-  ],
+/* ==========================================
+   옵시디언 스타일 목록
+   ========================================== */
+
+article ul, article ol {
+  padding-left: 1.4em;
 }
 
-// components for pages that display lists of pages  (e.g. tags or folders)
-export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    Component.Explorer(),
-  ],
-  right: [],
+article ul li, article ol li {
+  margin: 0.05em 0;
+  line-height: 1.65;
+  position: relative;
+}
+
+/* 불릿 단계별 모양 */
+article ul li { list-style-type: disc; }
+article ul ul li { list-style-type: circle; }
+article ul ul ul li { list-style-type: square; }
+
+/* ==========================================
+   중첩 목록 가이드 라인
+   ========================================== */
+
+article ul ul,
+article ol ol,
+article ul ol,
+article ol ul {
+  padding-left: 1.2em;
+  margin-left: 0;
+  position: relative;
+}
+
+article ul ul::before,
+article ol ol::before,
+article ul ol::before,
+article ol ul::before {
+  content: '';
+  position: absolute;
+  left: 0.1em;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+/* ==========================================
+   이미지 포함 li 가이드 라인
+   ========================================== */
+
+article li:has(> img) {
+  position: relative;
+}
+
+article li:has(> img)::after {
+  content: '';
+  position: absolute;
+  left: -1.1em;
+  top: 1.7em;
+  bottom: 0;
+  width: 1.5px;
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+/* ==========================================
+   이미지 스타일
+   ========================================== */
+
+article img {
+  display: block;
+  margin: 0.5em 0;
+}
+
+/* ==========================================
+   목록 페이지 태그 3개만 노출
+   ========================================== */
+
+.page-listing .tags li:nth-child(n+4) {
+  display: none;
 }

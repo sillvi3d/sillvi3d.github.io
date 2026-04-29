@@ -7,15 +7,6 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [
     Component.ConditionalRender({
-      component: Component.RecentNotes({
-        title: "최근 글",
-        limit: 5,
-        showTags: false,
-        filter: (f) => !f.slug.endsWith("index"),
-      }),
-      condition: (page) => page.fileData.slug === "index",
-    }),
-    Component.ConditionalRender({
       component: Component.Comments({
         provider: "giscus",
         options: {
@@ -63,6 +54,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
         { Component: Component.ReaderMode() },
       ],
+    }),
+    Component.RecentNotes({
+      title: "Recent Notes",
+      limit: 4,
+      showTags: false,
+      filter: (f) => !f.slug.endsWith("index"),
     }),
     Component.Explorer(),
   ],
