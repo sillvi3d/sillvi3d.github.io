@@ -5,6 +5,14 @@
 }
 
 /* ==========================================
+   제목 볼드
+   ========================================== */
+
+h1.article-title {
+  font-weight: 800 !important;
+}
+
+/* ==========================================
    옵시디언 스타일 목록
    ========================================== */
 
@@ -82,4 +90,20 @@ article img {
 
 .page-listing .tags li:nth-child(n+4) {
   display: none;
+}
+
+/* ==========================================
+   목록 페이지 - 폴더 vs 글 구분
+   ========================================== */
+
+/* 폴더 항목 색상 흐리게 + 📁 아이콘 */
+.page-listing .section-li .section a.internal[href$="/"] {
+  color: var(--gray);
+  font-style: italic;
+}
+
+.page-listing .section-li .section a.internal[href$="/"]:after {
+  content: " 📁";
+  font-style: normal;
+  font-size: 0.85em;
 }
