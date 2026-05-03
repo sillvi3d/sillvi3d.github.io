@@ -40,20 +40,20 @@ jobs:
 
     steps:
       - name: sillvi3d.github.io 체크아웃 (스크립트용)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: blog
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: obsidian-vault 체크아웃
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: sillvi3d/obsidian-vault
           token: ${{ secrets.PAT_TOKEN }}
           path: obsidian-vault
 
       - name: Python 설정
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
