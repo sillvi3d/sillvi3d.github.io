@@ -15,19 +15,21 @@
 # v1.9  2026-04-19  blender_digest.py 공지글 필터 완화, 폴더 → Blender_Help
 #                   blender_general_digest.py 추가 (r/blender 플레어 필터)
 #                   world_news_digest.py 추가 (r/news, r/worldnews, r/economy)
-#                   fetch+reset 방식으로 충돌 방지 강화
 # v2.0  2026-04-22  스케줄 7시 → 6시 KST
 #                   .last_digest 더미 커밋으로 스케줄 안정화
 #                   concurrency 설정으로 동시 실행 방지
 #                   rate limit 딜레이 추가 (time.sleep)
+# v2.1  2026-05-03  Cron-job.org 외부 트리거 추가로 스케줄 안정화
+#                   blog 단계 reset --hard → merge로 변경 (파일 유실 방지)
+#                   .last_digest 더미 커밋 추가
 # ============================================================
 
 name: Daily Digest
 
 on:
   schedule:
-    - cron: "0 21 * * *"  # 매일 오전 6시 KST (= UTC 21:00)
-  workflow_dispatch:
+    - cron: "0 21 * * *"  # 매일 오전 6시 KST (= UTC 21:00) - 백업용
+  workflow_dispatch:       # Cron-job.org 외부 트리거 + 수동 실행
 
 jobs:
   digest:

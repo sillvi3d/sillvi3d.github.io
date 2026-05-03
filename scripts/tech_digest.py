@@ -25,19 +25,32 @@ def sanitize(text: str) -> str:
 
 
 def llm(prompt: str) -> str:
-    time.sleep(3)
-    res = requests.post(
-        "https://models.inference.ai.azure.com/chat/completions",
-        headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
-        json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
-        timeout=60,
-    )
-    res.raise_for_status()
-    data = res.json()
-    try:
-        return data["choices"][0]["message"]["content"]
-    except (KeyError, IndexError):
-        return f"_요약 실패: {str(data)[:200]}_"
+    for attempt in range(5):
+        time.sleep(3)
+        try:
+            res = requests.post(
+                "https://models.inference.ai.azure.com/chat/completions",
+                headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
+                json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
+                timeout=60,
+            )
+            if res.status_code == 429:
+                wait = 30 * (attempt + 1)
+                print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
+                time.sleep(wait)
+                continue
+            res.raise_for_status()
+            data = res.json()
+            try:
+                return data["choices"][0]["message"]["content"]
+            except (KeyError, IndexError):
+                return f"_요약 실패: {str(data)[:200]}_"
+        except Exception as e:
+            if attempt < 4:
+                time.sleep(15)
+            else:
+                return f"_요약 실패: {str(e)[:100]}_"
+    return "_요약 실패: 재시도 한도 초과_"
 
 
 def fetch_posts(subreddit: str, mode: str = "top", limit: int = 15) -> list[dict]:

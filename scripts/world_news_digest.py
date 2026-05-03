@@ -25,20 +25,35 @@ def sanitize(text: str) -> str:
     return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
 
 
-def llm(prompt: str) -> str:
-    time.sleep(3)
-    res = requests.post(
-        "https://models.inference.ai.azure.com/chat/completions",
-        headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
-        json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
-        timeout=60,
-    )
-    res.raise_for_status()
-    data = res.json()
-    try:
-        return data["choices"][0]["message"]["content"]
-    except (KeyError, IndexError):
-        return f"_요약 실패: {str(data)[:200]}_"
+def llm(prompt: str, retry: int = 5) -> str:
+    for attempt in range(retry):
+        time.sleep(3)
+        try:
+            res = requests.post(
+                "https://models.inference.ai.azure.com/chat/completions",
+                headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
+                json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
+                timeout=60,
+            )
+            if res.status_code == 429:
+                wait = 30 * (attempt + 1)
+                print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/{retry})")
+                time.sleep(wait)
+                continue
+            res.raise_for_status()
+            data = res.json()
+            choice = data["choices"][0]
+            if choice.get("finish_reason") == "content_filter":
+                return "_콘텐츠 필터로 인해 요약이 제한되었습니다._"
+            return choice["message"]["content"]
+        except (KeyError, IndexError):
+            return "_요약 실패_"
+        except Exception as e:
+            if attempt < retry - 1:
+                time.sleep(15)
+            else:
+                return f"_요약 실패: {str(e)[:100]}_"
+    return "_요약 실패: 재시도 한도 초과_"
 
 
 def fetch_posts(subreddit: str, limit: int = 10) -> list[dict]:
@@ -102,9 +117,9 @@ def summarize_overall(data: dict) -> str:
     for sr, d in data.items():
         label = SUBREDDITS[sr]['label']
         for p in d["posts"][:3]:
-            titles.append(f"[{label}] {p['title']}")
+            titles.append(f"[{label}] {p['title'][:80]}")
     combined = "\n".join(titles)
-    return llm(f"다음 뉴스 제목들을 보고 오늘의 핵심 이슈 3줄을 한국어로 요약해주세요. 각 줄은 *로 시작:\n\n{combined}")
+    return llm(f"다음은 오늘의 주요 뉴스 제목 목록입니다. 전체적인 흐름을 3줄로 한국어 요약해주세요:\n\n{combined}")
 
 
 def build_daily_md(data: dict, overall: str) -> str:
