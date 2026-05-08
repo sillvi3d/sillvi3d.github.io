@@ -55,12 +55,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.RecentNotes({
+    Component.DesktopOnly(Component.RecentNotes({
       title: "Recent Notes",
       limit: 4,
       showTags: false,
       filter: (f) => !f.slug.endsWith("index"),
-    }),
+    })),
     Component.Explorer(),
   ],
   right: [
