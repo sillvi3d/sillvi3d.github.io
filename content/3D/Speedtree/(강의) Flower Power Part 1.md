@@ -1,5 +1,5 @@
 ---
-title: (강의) Flower Power  Part 1
+title: (강의) Flower Power Part 1
 ---
 
 날짜 : 26.04.14
