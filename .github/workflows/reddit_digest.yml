@@ -95,34 +95,20 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add 0_Blog/AI/Trend/ComfyUI/ \
-                  0_Blog/AI/Trend/AI_Tech/ \
-                  0_Blog/AI/Trend/News/ \
-                  0_Blog/3D/Blender_Help/ \
-                  0_Blog/3D/Blender/Blender_General/
+          git add 4_Trend/ComfyUI/ \
+                  4_Trend/AI_Tech/ \
+                  4_Trend/News/ \
+                  4_Trend/Blender/Help/ \
+                  4_Trend/Blender/General/
           git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git fetch origin main
           git rebase origin/main
           git push
 
-      - name: blog content에 복사 & 블로그 발행
-        working-directory: blog
+      - name: blog deploy 트리거
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git merge origin/main --no-edit
-          mkdir -p content/AI/Trend/ComfyUI
-          mkdir -p content/AI/Trend/AI_Tech
-          mkdir -p content/AI/Trend/News
-          mkdir -p content/3D/Blender_Help
-          mkdir -p content/3D/Blender/Blender_General
-          cp -r ../obsidian-vault/0_Blog/AI/Trend/ComfyUI/.            content/AI/Trend/ComfyUI/            2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/AI/Trend/AI_Tech/.            content/AI/Trend/AI_Tech/            2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/AI/Trend/News/.               content/AI/Trend/News/               2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/3D/Blender_Help/.             content/3D/Blender_Help/             2>/dev/null || true
-          cp -r ../obsidian-vault/0_Blog/3D/Blender/Blender_General/.  content/3D/Blender/Blender_General/  2>/dev/null || true
-          echo "$(date +'%Y-%m-%d %H:%M')" > .last_digest
-          git add content/AI/Trend/ content/3D/Blender_Help/ content/3D/Blender/ .last_digest
-          git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
-          git push
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/sillvi3d/sillvi3d.github.io/dispatches \
+            -d '{"event_type":"vault-updated"}'

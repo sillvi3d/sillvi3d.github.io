@@ -6,7 +6,7 @@ from datetime import datetime, timezone, timedelta
 SUBREDDIT    = "blenderhelp"
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; blender-digest-bot/1.0)"}
-VAULT_BASE   = "0_Blog/3D/Blender_Help"
+VAULT_BASE   = "4_Trend/Blender/Help"
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
 
 KST        = timezone(timedelta(hours=9))
