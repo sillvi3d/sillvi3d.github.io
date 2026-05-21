@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types: [vault-updated]
   workflow_dispatch:
 
 permissions:
@@ -22,10 +24,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout blog (quartz code)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Checkout obsidian-vault into content/
+        uses: actions/checkout@v4
+        with:
+          repository: sillvi3d/obsidian-vault
+          token: ${{ secrets.PAT_TOKEN }}
+          path: content
 
       - name: Setup Node
         uses: actions/setup-node@v4
