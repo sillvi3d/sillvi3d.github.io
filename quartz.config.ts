@@ -28,33 +28,13 @@ const config: QuartzConfig = {
       },
     ],
     ignorePatterns: [
-      // ── 현재(구) 폴더명 ──
-      "0. 202x/**",
-      "1. About Me/**",
-      "3. SW information/**",
-      "3. SW 도감/**",
-      "3. 강의/**",
-      "4. 배경 모델러/**",
-      "5. 독서/**",
-      "5. 미디어/**",
-      "6. Side projects/**",
-      "6. 회사/**",
-      "9. 서식/**",
-      "9. 잡정보/**",
-      // "99. 이미지 파일들/**",  // 이미지는 quartz가 접근 필요 — 제외하지 않음
-      "99. json/**",
-      "output/**",
-      "scripts/**",
-      "custom instruction/**",
-      "_Templates/**",
-      "_Meta/**",
-      "_config/**",
-      // ── 새 폴더명 (Phase 1 이후) ──
+      // ── 비공개 폴더 ──
       "0_Inbox/**",
       "5_Project/**",
       "6_Work/**",
       "7_Life/**",
       "_Template/**",
+      "_Meta/**",
       "_Config/**",
       "_Script/**",
       "_Instruction/**",
@@ -62,8 +42,6 @@ const config: QuartzConfig = {
       // ── 시스템 ──
       ".obsidian/**",
       ".git/**",
-      "private",
-      "templates",
     ],
     defaultDateType: "modified",
     theme: {
