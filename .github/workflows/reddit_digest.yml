@@ -95,11 +95,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add 4_Trend/ComfyUI/ \
-                  4_Trend/AI_Tech/ \
-                  4_Trend/News/ \
-                  4_Trend/Blender/Help/ \
-                  4_Trend/Blender/General/
+          git add 5_Trend/ComfyUI/ \
+                  5_Trend/AI_Tech/ \
+                  5_Trend/News/ \
+                  5_Trend/Blender/Help/ \
+                  5_Trend/Blender/General/
           git diff --staged --quiet || git commit -m "📰 Daily Digest $(date +'%Y-%m-%d')"
           git fetch origin main
           git rebase origin/main

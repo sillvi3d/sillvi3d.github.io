@@ -9,7 +9,7 @@ SUBREDDITS   = {
 }
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; tech-digest-bot/1.0)"}
-VAULT_BASE   = "4_Trend/AI_Tech"
+VAULT_BASE   = "5_Trend/AI_Tech"
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
 
 KST        = timezone(timedelta(hours=9))

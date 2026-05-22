@@ -30,9 +30,9 @@ const config: QuartzConfig = {
     ignorePatterns: [
       // ── 비공개 폴더 ──
       "0_Inbox/**",
-      "5_Project/**",
-      "6_Work/**",
-      "7_Life/**",
+      "6_Project/**",
+      "7_Work/**",
+      "8_Life/**",
       "_Template/**",
       "_Meta/**",
       "_Config/**",
