@@ -2,6 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 import style from "../styles/listPage.scss"
 import { PageList, SortFn } from "../PageList"
+import { GalleryGrid } from "../GalleryGrid"
 import { Root } from "hast"
 import { htmlToJsx } from "../../util/jsx"
 import { i18n } from "../../i18n"
@@ -17,11 +18,16 @@ interface FolderContentOptions {
   showFolderCount: boolean
   showSubfolders: boolean
   sort?: SortFn
+  /**
+   * Folder prefixes that should render as gallery grid instead of list
+   */
+  galleryFolders?: string[]
 }
 
 const defaultOptions: FolderContentOptions = {
   showFolderCount: true,
   showSubfolders: true,
+  galleryFolders: ["1_Works"],
 }
 
 export default ((opts?: Partial<FolderContentOptions>) => {
@@ -102,6 +108,12 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         : htmlToJsx(fileData.filePath!, tree)
     ) as ComponentChildren
 
+    // Check if current folder should use gallery view
+    const currentSlug = fileData.slug ?? ""
+    const isGallery = (options.galleryFolders ?? []).some(
+      (prefix) => currentSlug === prefix || currentSlug.startsWith(prefix + "/"),
+    )
+
     return (
       <div class="popover-hint">
         <article class={classes}>{content}</article>
@@ -114,13 +126,13 @@ export default ((opts?: Partial<FolderContentOptions>) => {
             </p>
           )}
           <div>
-            <PageList {...listProps} />
+            {isGallery ? <GalleryGrid {...listProps} /> : <PageList {...listProps} />}
           </div>
         </div>
       </div>
     )
   }
 
-  FolderContent.css = concatenateResources(style, PageList.css)
+  FolderContent.css = concatenateResources(style, PageList.css, GalleryGrid.css)
   return FolderContent
 }) satisfies QuartzComponentConstructor
