@@ -7,6 +7,10 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [
     Component.ConditionalRender({
+      component: Component.RecentWorks(),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+    Component.ConditionalRender({
       component: Component.Comments({
         provider: "giscus",
         options: {
