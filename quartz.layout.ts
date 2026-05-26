@@ -59,18 +59,17 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
+    Component.Explorer(),
     Component.DesktopOnly(Component.RecentNotes({
       title: "Recent Notes",
       limit: 4,
       showTags: false,
-      filter: (f) => !f.slug.endsWith("index"),
+      filter: (f) => !f.slug.endsWith("index") && !f.slug.startsWith("5_Trend/"),
     })),
-    Component.Explorer(),
   ],
   right: [
     Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
   ],
 }
 
