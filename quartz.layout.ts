@@ -6,6 +6,7 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [
+    Component.ImageLightbox(),
     Component.ConditionalRender({
       component: Component.RecentWorks(),
       condition: (page) => page.fileData.slug === "index",

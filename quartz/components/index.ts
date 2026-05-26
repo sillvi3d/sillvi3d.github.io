@@ -25,6 +25,7 @@ import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import RecentWorks from "./RecentWorks"
 import SoftwareUsed from "./SoftwareUsed"
+import ImageLightbox from "./ImageLightbox"
 
 export {
   ArticleTitle,
@@ -54,4 +55,5 @@ export {
   ConditionalRender,
   RecentWorks,
   SoftwareUsed,
+  ImageLightbox,
 }
