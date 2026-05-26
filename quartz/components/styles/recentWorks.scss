@@ -90,10 +90,57 @@
   }
 }
 
+/* Hidden cards (pagination) */
+.recent-works-card.rw-hidden {
+  display: none;
+}
+
 .recent-works-empty {
   color: var(--gray);
   font-size: 0.85rem;
   font-style: italic;
+}
+
+/* Pagination */
+.rw-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 1rem;
+}
+
+.rw-page-btn,
+.rw-page-num {
+  background: var(--lightgray);
+  border: 1px solid var(--lightgray);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--darkgray);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--secondary);
+    color: var(--light);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+.rw-page-num.rw-active {
+  background: var(--secondary);
+  color: var(--light);
+  font-weight: 600;
+}
+
+.rw-page-numbers {
+  display: flex;
+  gap: 0.2rem;
 }
 
 @media (max-width: 600px) {

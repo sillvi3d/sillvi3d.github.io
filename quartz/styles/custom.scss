@@ -1,7 +1,39 @@
 @use "./base.scss";
 
-.explorer-ul .nav-file-title-content {
-  font-size: 0.4rem !important;
+/* ==========================================
+   좌측 사이드바 폰트 크기 계층
+   ========================================== */
+
+/* Explorer 제목 ("Explorer") */
+button.desktop-explorer h2,
+button.mobile-explorer h2 {
+  font-size: 1.15rem !important;
+}
+
+/* Explorer 폴더명 (1_Works, 2_SW 등) */
+.folder-container div > a,
+.folder-container div > button span {
+  font-size: 1rem !important;
+}
+
+/* Explorer 파일명 (개별 글 제목) */
+.explorer-ul li > a {
+  font-size: 0.85rem !important;
+}
+
+/* Recent Notes 제목 — Explorer 제목과 동일 */
+.recent-notes > h3 {
+  font-size: 1.15rem !important;
+}
+
+/* Recent Notes 글 제목 — Explorer 파일명과 동일 */
+.recent-notes .section > .desc > h3 {
+  font-size: 0.85rem !important;
+}
+
+/* Recent Notes 날짜 */
+.recent-notes .section > .meta {
+  font-size: 0.75rem !important;
 }
 
 /* ==========================================

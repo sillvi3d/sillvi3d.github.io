@@ -64,7 +64,7 @@ export const defaultContentPageLayout: PageLayout = {
       title: "Recent Notes",
       limit: 4,
       showTags: false,
-      filter: (f) => !f.slug.endsWith("index") && !f.slug.startsWith("5_Trend/"),
+      filter: (f) => !f.slug.endsWith("index") && !f.slug.startsWith("5_Trend/") && !f.slug.startsWith("1_Works/"),
     })),
   ],
   right: [
