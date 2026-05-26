@@ -1,3 +1,34 @@
+/* Tag filter bar */
+.gallery-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-filter-btn {
+  background: var(--lightgray);
+  border: 1px solid var(--lightgray);
+  border-radius: 20px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--darkgray);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+
+  &:hover:not(.gf-active) {
+    border-color: var(--gray);
+  }
+
+  &.gf-active {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light);
+    font-weight: 600;
+  }
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

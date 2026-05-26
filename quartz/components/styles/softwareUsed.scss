@@ -1,0 +1,56 @@
+.software-used {
+  margin: 0.6rem 0 1.2rem;
+}
+
+.software-used-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.5rem;
+}
+
+.software-used-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.software-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem 0.2rem 0.2rem;
+  border-radius: 6px;
+  background: var(--lightgray);
+  border: 1px solid var(--lightgray);
+  font-size: 0.82rem;
+  color: var(--darkgray);
+  line-height: 1;
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--gray);
+  }
+}
+
+.software-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.software-name {
+  font-weight: 500;
+}
