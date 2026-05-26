@@ -31,7 +31,12 @@ export const GalleryGrid: QuartzComponent = ({
         const title = page.frontmatter?.title
         const thumbnail = (page.frontmatter as any)?.thumbnail
         const tags = page.frontmatter?.tags ?? []
+        const description = (page.frontmatter as any)?.description ?? ""
         const href = resolveRelative(fileData.slug!, page.slug!)
+        const date = getDate(cfg, page)
+        const dateStr = date
+          ? date.toLocaleDateString("ko-KR", { year: "numeric", month: "short", day: "numeric" })
+          : ""
 
         return (
           <a href={href} class="gallery-card internal">
@@ -61,6 +66,11 @@ export const GalleryGrid: QuartzComponent = ({
                   </svg>
                 </div>
               )}
+              {/* Hover overlay */}
+              <div class="gallery-card-overlay">
+                {dateStr && <span class="gallery-overlay-date">{dateStr}</span>}
+                {description && <p class="gallery-overlay-desc">{description}</p>}
+              </div>
             </div>
             <div class="gallery-card-meta">
               <h3>{title}</h3>
