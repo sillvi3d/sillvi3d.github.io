@@ -31,9 +31,30 @@ button.mobile-explorer h2 {
   font-size: 0.85rem !important;
 }
 
-/* Recent Notes 날짜 */
+/* Recent Notes 날짜 — 숨김 */
 .recent-notes .section > .meta {
-  font-size: 0.75rem !important;
+  display: none !important;
+}
+
+/* ==========================================
+   Explorer 배경 (데스크탑 / 태블릿)
+   ========================================== */
+@media all and (min-width: 801px) {
+  .explorer {
+    background-color: var(--highlight);
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem 0.8rem 0.8rem;
+  }
+}
+
+/* ==========================================
+   Recent Notes 너비 — Explorer 배경 박스와 맞춤
+   ========================================== */
+@media all and (min-width: 801px) {
+  .recent-notes {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
 }
 
 /* ==========================================
