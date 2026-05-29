@@ -61,7 +61,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({ useSavedState: false }),
     Component.DesktopOnly(Component.RecentNotes({
       title: "Recent Notes",
       limit: 4,
@@ -90,7 +90,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({ useSavedState: false }),
   ],
   right: [],
 }
