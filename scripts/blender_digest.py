@@ -62,8 +62,18 @@ def is_pinned(title: str) -> bool:
 
 def fetch_posts(limit: int = 20) -> list[dict]:
     url = f"https://www.reddit.com/r/{SUBREDDIT}/hot.rss?limit={limit}"
-    res = requests.get(url, headers=HEADERS, timeout=15)
-    res.raise_for_status()
+    for attempt in range(5):
+        res = requests.get(url, headers=HEADERS, timeout=15)
+        if res.status_code == 429:
+            wait = 30 * (attempt + 1)
+            print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
+            time.sleep(wait)
+            continue
+        res.raise_for_status()
+        break
+    else:
+        print(f"  ⚠️ [r/{SUBREDDIT}] 5회 재시도 후에도 429 — 빈 결과 반환")
+        return []
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
     root = ET.fromstring(res.text)
     posts = []

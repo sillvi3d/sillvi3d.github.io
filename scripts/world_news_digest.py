@@ -58,8 +58,18 @@ def llm(prompt: str, retry: int = 5) -> str:
 
 def fetch_posts(subreddit: str, limit: int = 10) -> list[dict]:
     url = f"https://www.reddit.com/r/{subreddit}/top.rss?t=day&limit={limit}"
-    res = requests.get(url, headers=HEADERS, timeout=15)
-    res.raise_for_status()
+    for attempt in range(5):
+        res = requests.get(url, headers=HEADERS, timeout=15)
+        if res.status_code == 429:
+            wait = 30 * (attempt + 1)
+            print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
+            time.sleep(wait)
+            continue
+        res.raise_for_status()
+        break
+    else:
+        print(f"  ⚠️ [r/{subreddit}] 5회 재시도 후에도 429 — 빈 결과 반환")
+        return []
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
     root = ET.fromstring(res.text)
     posts = []
@@ -157,7 +167,10 @@ def build_daily_md(data: dict, overall: str) -> str:
 def run_daily():
     os.makedirs(VAULT_PATH, exist_ok=True)
     data = {}
-    for sr, info in SUBREDDITS.items():
+    for i, (sr, info) in enumerate(SUBREDDITS.items()):
+        if i > 0:
+            print("  ⏳ rate limit 방지 10초 대기...")
+            time.sleep(10)
         print(f"[{info['label']}] 크롤링 중...")
         posts = fetch_posts(sr)
         print(f"  → {len(posts)}개 수집")
