@@ -6,6 +6,8 @@ from datetime import datetime, timezone, timedelta
 SUBREDDITS   = {
     "technology": {"emoji": "🌐", "label": "r/technology"},
     "claude"    : {"emoji": "🤖", "label": "r/claude"},
+    "OpenAI"    : {"emoji": "🧠", "label": "r/OpenAI"},
+    "ChatGPT"   : {"emoji": "💬", "label": "r/ChatGPT"},
 }
 GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; tech-digest-bot/1.0)"}
@@ -245,6 +247,24 @@ def summarize_period(contents: str, period: str, date_range: str) -> str:
 ---
 
 ## 🤖 r/claude
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드
+#키워드
+
+---
+
+## 🧠 r/OpenAI
+### 1. 주요 트렌드 요약
+### 2. 가장 주목받은 Top 3
+* 제목 — URL
+### 3. {period} 키워드
+#키워드
+
+---
+
+## 💬 r/ChatGPT
 ### 1. 주요 트렌드 요약
 ### 2. 가장 주목받은 Top 3
 * 제목 — URL
