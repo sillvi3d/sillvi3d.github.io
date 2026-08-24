@@ -1,6 +1,9 @@
 import os, requests, time, re
 from datetime import datetime, timezone, timedelta
 
+# ── 공통 LLM 클라이언트 (프로바이더 교체는 llm_client.py 한 곳에서) ──
+from llm_client import llm  # noqa: E402
+
 try:
     from bs4 import BeautifulSoup
 except ImportError:
@@ -15,7 +18,6 @@ SECTIONS = {
     "politics" : {"emoji": "🏛️", "label": "정치"},
     "society"  : {"emoji": "👥", "label": "사회"},
 }
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
 VAULT_BASE   = "5_Trend/News/Korea"
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
@@ -30,37 +32,6 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"
 
 def sanitize(text: str) -> str:
     return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
-
-
-def llm(prompt: str, retry: int = 5) -> str:
-    for attempt in range(retry):
-        time.sleep(3)
-        try:
-            res = requests.post(
-                "https://models.inference.ai.azure.com/chat/completions",
-                headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
-                json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
-                timeout=60,
-            )
-            if res.status_code == 429:
-                wait = 30 * (attempt + 1)
-                print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/{retry})")
-                time.sleep(wait)
-                continue
-            res.raise_for_status()
-            data = res.json()
-            choice = data["choices"][0]
-            if choice.get("finish_reason") == "content_filter":
-                return "_콘텐츠 필터로 인해 요약이 제한되었습니다._"
-            return choice["message"]["content"]
-        except (KeyError, IndexError):
-            return "_요약 실패_"
-        except Exception as e:
-            if attempt < retry - 1:
-                time.sleep(15)
-            else:
-                return f"_요약 실패: {str(e)[:100]}_"
-    return "_요약 실패: 재시도 한도 초과_"
 
 
 # ── 한경 크롤링 ──────────────────────────────────

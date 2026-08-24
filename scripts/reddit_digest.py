@@ -2,16 +2,29 @@ import os, requests, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 
+# ── 공통 LLM 클라이언트 (프로바이더 교체는 llm_client.py 한 곳에서) ──
+from llm_client import llm  # noqa: E402
+
 # ── 설정 ──────────────────────────────────────────
 SUBREDDIT    = "comfyui"
 FLAIRS       = ["Workflow Included", "News", "Tutorial"]
 FLAIR_EMOJI  = {"Workflow Included": "🟢", "News": "🔴", "Tutorial": "🟡"}
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; comfyui-digest-bot/1.0)"}
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
 
 KST        = timezone(timedelta(hours=9))
-now_kst    = datetime.now(KST)
+
+# DIGEST_DATE=2026-08-10 처럼 지정하면 그 날짜 기준으로 소급 생성한다.
+# (r/comfyui 는 search.rss?sort=new 를 쓰므로 피드에 남아 있는 범위까지는 복구 가능.
+#  top.rss?t=day / hot.rss 를 쓰는 다른 스크립트는 소급이 불가능하다.)
+_target = os.environ.get("DIGEST_DATE", "").strip()
+if _target:
+    now_kst = datetime.strptime(_target, "%Y-%m-%d").replace(
+        hour=6, minute=0, tzinfo=KST
+    )
+    print(f"⏪ 소급 모드: {_target} 기준으로 생성합니다")
+else:
+    now_kst = datetime.now(KST)
 today_str  = now_kst.strftime("%Y-%m-%d")
 year_month = now_kst.strftime("%Y_%m")          # 예: 2026_04
 VAULT_BASE = "5_Trend/ComfyUI"
@@ -19,46 +32,16 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"       # 예: 0_Blog/AI/ComfyUI/Daily/2
 # ─────────────────────────────────────────────────
 
 
-# ── LLM 호출 ──────────────────────────────────────
 def sanitize(text: str) -> str:
     return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
 
 
-def llm(prompt: str) -> str:
-    for attempt in range(5):
-        time.sleep(3)
-        try:
-            res = requests.post(
-                "https://models.inference.ai.azure.com/chat/completions",
-                headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
-                json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
-                timeout=60,
-            )
-            if res.status_code == 429:
-                wait = 30 * (attempt + 1)
-                print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
-                time.sleep(wait)
-                continue
-            res.raise_for_status()
-            data = res.json()
-            try:
-                return data["choices"][0]["message"]["content"]
-            except (KeyError, IndexError):
-                return f"_요약 실패: {str(data)[:200]}_"
-        except Exception as e:
-            if attempt < 4:
-                time.sleep(15)
-            else:
-                return f"_요약 실패: {str(e)[:100]}_"
-    return "_요약 실패: 재시도 한도 초과_"
-
-
 # ── Reddit RSS 크롤링 ──────────────────────────────
-def fetch_posts(flair: str, since_ts: float) -> list[dict]:
+def fetch_posts(flair: str, since_ts: float, until_ts: float | None = None) -> list[dict]:
     url = (
         f"https://www.reddit.com/r/{SUBREDDIT}/search.rss"
         f"?q=flair%3A%22{flair.replace(' ', '+')}%22"
-        f"&restrict_sr=1&sort=new&limit=50"
+        f"&restrict_sr=1&sort=new&limit=100"
     )
     for attempt in range(5):
         res = requests.get(url, headers=HEADERS, timeout=15)
@@ -83,6 +66,8 @@ def fetch_posts(flair: str, since_ts: float) -> list[dict]:
             continue
         if post_ts < since_ts:
             continue
+        if until_ts is not None and post_ts >= until_ts:
+            continue
         link = e.find("atom:link", ns)
         filtered.append({
             "title"   : sanitize(e.findtext("atom:title", "", ns)),
@@ -95,14 +80,20 @@ def fetch_posts(flair: str, since_ts: float) -> list[dict]:
 # ── DAILY ─────────────────────────────────────────
 def run_daily():
     os.makedirs(VAULT_PATH, exist_ok=True)
-    since_ts = (now_kst - timedelta(hours=24)).timestamp()
+    if _target:
+        day_start = now_kst.replace(hour=0, minute=0, second=0, microsecond=0)
+        since_ts  = day_start.timestamp()
+        until_ts  = (day_start + timedelta(days=1)).timestamp()
+    else:
+        since_ts = (now_kst - timedelta(hours=24)).timestamp()
+        until_ts = None
     summaries = {}
     for i, flair in enumerate(FLAIRS):
         if i > 0:
             print("  ⏳ rate limit 방지 10초 대기...")
             time.sleep(10)
         print(f"[{flair}] 크롤링 중...")
-        posts = fetch_posts(flair, since_ts)
+        posts = fetch_posts(flair, since_ts, until_ts)
         print(f"  → {len(posts)}개 수집")
         summaries[flair] = (summarize_daily(flair, posts), posts)
     md = build_daily_md(summaries)
@@ -281,6 +272,12 @@ def main():
     is_28th   = now_kst.day == 28
 
     run_daily()
+
+    if _target:
+        # 소급 모드에서는 데일리만 재생성한다.
+        # (위클리/먼슬리는 데일리 복구가 끝난 뒤 별도로 돌리는 게 안전)
+        print("⏪ 소급 모드 — 위클리/먼슬리 건너뜀")
+        return
 
     if is_sunday:
         print("\n[일요일] 위클리 요약 실행")

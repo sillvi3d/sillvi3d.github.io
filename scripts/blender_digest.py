@@ -2,8 +2,10 @@ import os, requests, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 
+# ── 공통 LLM 클라이언트 (프로바이더 교체는 llm_client.py 한 곳에서) ──
+from llm_client import llm  # noqa: E402
+
 # ── 설정 ──────────────────────────────────────────
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; blender-digest-bot/1.0)"}
 VAULT_BASE   = "5_Trend/Blender"
 MONTH_ABBR   = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
@@ -48,35 +50,6 @@ VAULT_PATH = f"{VAULT_BASE}/{year_month}"
 
 def sanitize(text: str) -> str:
     return text.replace('"', "'").replace('\\', '').replace('\n', ' ').strip()
-
-
-def llm(prompt: str) -> str:
-    for attempt in range(5):
-        time.sleep(3)
-        try:
-            res = requests.post(
-                "https://models.inference.ai.azure.com/chat/completions",
-                headers={"Authorization": f"Bearer {GITHUB_TOKEN}", "Content-Type": "application/json"},
-                json={"model": "gpt-4o-mini", "messages": [{"role": "user", "content": prompt}]},
-                timeout=60,
-            )
-            if res.status_code == 429:
-                wait = 30 * (attempt + 1)
-                print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
-                time.sleep(wait)
-                continue
-            res.raise_for_status()
-            data = res.json()
-            try:
-                return data["choices"][0]["message"]["content"]
-            except (KeyError, IndexError):
-                return f"_요약 실패: {str(data)[:200]}_"
-        except Exception as e:
-            if attempt < 4:
-                time.sleep(15)
-            else:
-                return f"_요약 실패: {str(e)[:100]}_"
-    return "_요약 실패: 재시도 한도 초과_"
 
 
 def is_pinned(title: str) -> bool:
