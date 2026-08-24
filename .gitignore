@@ -13,3 +13,9 @@ replit.nix
 # Python
 __pycache__/
 *.pyc
+
+# 볼트는 CI 에서 content/ 로 체크아웃된다.
+# 이 레포는 PUBLIC 이므로 로컬 볼트 사본이 실수로 커밋되면 비공개 문서가 공개된다.
+# index.md 만 추적하고 나머지는 전부 제외.
+/content/*
+!/content/index.md
