@@ -2,6 +2,11 @@
 # llm_client.py — digest 스크립트 공통 LLM 클라이언트 (Google Gemini)
 # ------------------------------------------------------------
 # v1.0  2026-08-24  신규 생성 (GitHub Models 2026-07-30 폐지 대응)
+# v1.2  2026-08-24  실측 기반 모델 순서 확정
+#   gemini-2.5-flash 계열은 목록에 있어도 404 → 후보에서 제거.
+#   gemini-flash-latest 는 무료 쿼터가 빨리 소진(429) → 예비로 후순위.
+#   gemini-flash-lite-latest 를 1순위로. 6개 스크립트가 각각 별도 프로세스라
+#   404 탐색을 매번 반복하던 낭비도 함께 제거된다.
 # v1.1  2026-08-24  모델 선택 로직 전면 수정
 #   v1.0 의 버그:
 #     - 자동 탐색이 모델을 찾아도 "이미 후보 목록에 있으면" 사용하지 않고
@@ -38,12 +43,18 @@ API_BASE = os.environ.get(
 )
 
 # 선호 순서. 실제로 존재하는 것만 골라 쓴다. 여기 없어도 목록에서 자동 보충.
+#
+# 2026-08-24 실측(이 계정 키, 34개 모델 조회됨)으로 결정한 순서:
+#   - gemini-2.5-flash / gemini-2.5-flash-lite : 목록에는 있으나 호출하면 404 → 제외
+#   - gemini-flash-latest                      : 호출은 되지만 무료 쿼터가 금방 소진(429)
+#   - gemini-flash-lite-latest                 : 정상 동작 → 1순위
+# lite 계열이 무료 한도가 넉넉하므로 앞에 두고, 일반 flash 를 뒤에 예비로 둔다.
 PREFERRED = [
     m.strip()
     for m in os.environ.get(
         "GEMINI_MODEL",
-        "gemini-2.5-flash,gemini-2.5-flash-lite,gemini-flash-latest,"
-        "gemini-flash-lite-latest,gemini-2.0-flash,gemini-2.0-flash-lite",
+        "gemini-flash-lite-latest,gemini-3.5-flash-lite,gemini-3.1-flash-lite,"
+        "gemini-flash-latest,gemini-3.5-flash,gemini-3.6-flash",
     ).split(",")
     if m.strip()
 ]
