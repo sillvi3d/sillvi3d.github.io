@@ -34,6 +34,14 @@
 #                   secrets.GITHUB_TOKEN → secrets.GEMINI_API_KEY
 #                   원본 프롬프트 아카이브 (_Meta/digest_raw/) 커밋 추가
 #                   요약 실패 감지 스텝 추가 (조용한 실패 방지)
+# v3.2  2026-10-29  schedule 자동 비활성화 대응
+#                   GitHub 은 60일간 '레포 활동'이 없으면 schedule 트리거를
+#                   자동으로 끈다(state: disabled_inactivity).
+#                   이 파이프라인의 커밋은 전부 obsidian-vault 로 가므로
+#                   블로그 레포는 활동이 없는 것으로 보였고,
+#                   마지막 push(2026-08-24) + 60일 = 2026-10-23 에 실제로 중단됐다.
+#                   v2.0 에 있던 .last_digest 더미 커밋이 v3.0 리팩토링 때
+#                   빠진 것이 원인 — 주 1회 커밋으로 복구한다.
 # ============================================================
 
 name: Daily Digest
@@ -136,6 +144,30 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/sillvi3d/sillvi3d.github.io/dispatches \
             -d '{"event_type":"vault-updated"}'
+
+      # ── 스케줄 유지용 커밋 ─────────────────────
+      # GitHub 은 60일간 레포에 활동이 없으면 schedule 트리거를 자동으로 끈다.
+      # 이 워크플로의 산출물은 전부 obsidian-vault 로 커밋되기 때문에
+      # 블로그 레포는 "방치된 저장소"로 보인다. 주 1회 여기에 커밋을 남겨
+      # 비활성화 타이머를 리셋한다. (2026-10-23 에 실제로 한 번 당했다)
+      - name: 스케줄 유지 커밋 (.last_digest)
+        if: always()
+        working-directory: blog
+        run: |
+          if [ "$(TZ=Asia/Seoul date +'%u')" != "1" ]; then
+            echo "월요일이 아니라 건너뜁니다 (다음 월요일에 갱신)"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          TZ=Asia/Seoul date +'%Y-%m-%d %H:%M' > .last_digest
+          git add .last_digest
+          git diff --staged --quiet && { echo "변경 없음"; exit 0; }
+          git commit -m "chore: keep schedule alive $(TZ=Asia/Seoul date +'%Y-%m-%d')"
+          git fetch origin main
+          git rebase origin/main
+          git push
+          echo "✅ 비활성화 타이머 리셋"
 
       # ── 요약 실패 감지 ─────────────────────────
       # GitHub Models 폐지 때처럼 "파일은 생성되지만 내용이 비는" 상태를
