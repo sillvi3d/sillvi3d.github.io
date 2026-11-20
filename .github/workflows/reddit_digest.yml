@@ -42,6 +42,14 @@
 #                   마지막 push(2026-08-24) + 60일 = 2026-10-23 에 실제로 중단됐다.
 #                   v2.0 에 있던 .last_digest 더미 커밋이 v3.0 리팩토링 때
 #                   빠진 것이 원인 — 주 1회 커밋으로 복구한다.
+# v3.3  2026-11-20  한 소스 장애가 전체를 멈추던 문제 수정
+#                   reddit/tech/blender/world_news 는 res.raise_for_status() 가
+#                   노출돼 있어 403·5xx·네트워크 오류에 그대로 죽었고,
+#                   fail-fast 때문에 나머지 5개 소스까지 실행되지 않았다.
+#                   (2026-11-10 ~ 11-20, 20회 연속 전면 실패)
+#                   → scripts/http_util.py 신설, 수집 실패는 해당 소스만 비우고
+#                     _Meta/digest_raw/<날짜>_fetch_errors.log 에 기록.
+#                   검사 스텝이 그 로그도 보고 실행을 실패 처리한다.
 # ============================================================
 
 name: Daily Digest
@@ -172,11 +180,25 @@ jobs:
       # ── 요약 실패 감지 ─────────────────────────
       # GitHub Models 폐지 때처럼 "파일은 생성되지만 내용이 비는" 상태를
       # 조용히 넘기지 않기 위한 안전장치. 실패하면 GitHub 가 메일로 알려준다.
-      - name: 요약 실패 검사
+      - name: 수집 / 요약 검사
         working-directory: obsidian-vault
         run: |
           TODAY=$(TZ=Asia/Seoul date +'%Y-%m-%d')
+          FAILED=0
           echo "검사 대상: $TODAY"
+
+          # ── 1) 수집 실패 (HTTP 403/5xx/네트워크) ──
+          # 한 소스가 막혀도 파이프라인은 계속 돌지만, 조용히 넘어가선 안 된다.
+          LOGS=$(ls _Meta/digest_raw/*/"${TODAY}"_fetch_errors.log 2>/dev/null || true)
+          if [ -n "$LOGS" ]; then
+            echo "::error::오늘 일부 소스에서 수집이 실패했습니다."
+            awk -F'\t' '{print "  " $2 " / " $3 " → " $4}' $LOGS | sort -u
+            FAILED=1
+          else
+            echo "✅ 모든 소스 수집 정상"
+          fi
+
+          # ── 2) 요약 실패 (LLM) ──
           BAD=$(grep -rl "요약 실패" 5_Trend --include="${TODAY}.md" 2>/dev/null || true)
           if [ -n "$BAD" ]; then
             echo "::error::오늘 digest 중 요약이 실패한 파일이 있습니다."
@@ -187,6 +209,9 @@ jobs:
             echo ""
             echo "원본 수집 데이터는 _Meta/digest_raw/ 에 보존되어 있으므로"
             echo "원인을 고친 뒤 scripts/resummarize.py 로 재요약할 수 있습니다."
-            exit 1
+            FAILED=1
+          else
+            echo "✅ 모든 digest 요약 정상"
           fi
-          echo "✅ 모든 digest 요약 정상"
+
+          exit $FAILED

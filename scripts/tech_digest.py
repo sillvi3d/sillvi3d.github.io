@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 
 # ── 공통 LLM 클라이언트 (프로바이더 교체는 llm_client.py 한 곳에서) ──
 from llm_client import llm  # noqa: E402
+import http_util  # noqa: E402
 
 # ── 설정 ──────────────────────────────────────────
 SUBREDDITS   = {
@@ -30,20 +31,11 @@ def sanitize(text: str) -> str:
 
 def fetch_posts(subreddit: str, mode: str = "top", limit: int = 15) -> list[dict]:
     url = f"https://www.reddit.com/r/{subreddit}/{mode}.rss?t=day&limit={limit}"
-    for attempt in range(5):
-        res = requests.get(url, headers=HEADERS, timeout=15)
-        if res.status_code == 429:
-            wait = 30 * (attempt + 1)
-            print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
-            time.sleep(wait)
-            continue
-        res.raise_for_status()
-        break
-    else:
-        print(f"  ⚠️ [r/{subreddit}] 5회 재시도 후에도 429 — 빈 결과 반환")
+    text = http_util.fetch(url, HEADERS, label=f"r/{subreddit}")
+    if text is None:
         return []
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
-    root = ET.fromstring(res.text)
+    root = ET.fromstring(text)
     posts = []
     for e in root.findall("atom:entry", ns):
         link = e.find("atom:link", ns)

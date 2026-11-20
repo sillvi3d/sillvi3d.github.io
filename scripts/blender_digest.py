@@ -4,6 +4,7 @@ from datetime import datetime, timezone, timedelta
 
 # ── 공통 LLM 클라이언트 (프로바이더 교체는 llm_client.py 한 곳에서) ──
 from llm_client import llm  # noqa: E402
+import http_util  # noqa: E402
 
 # ── 설정 ──────────────────────────────────────────
 HEADERS      = {"User-Agent": "Mozilla/5.0 (compatible; blender-digest-bot/1.0)"}
@@ -56,18 +57,9 @@ def is_pinned(title: str) -> bool:
     return any(kw in title.lower() for kw in PINNED_KEYWORDS)
 
 
-def _fetch_rss(url: str) -> requests.Response:
-    """RSS URL을 가져오되, 429 시 재시도."""
-    for attempt in range(5):
-        res = requests.get(url, headers=HEADERS, timeout=15)
-        if res.status_code == 429:
-            wait = 30 * (attempt + 1)
-            print(f"  429 Too Many Requests — {wait}초 대기 후 재시도 ({attempt+1}/5)")
-            time.sleep(wait)
-            continue
-        res.raise_for_status()
-        return res
-    return None
+def _fetch_rss(url: str, label: str = "") -> str | None:
+    """RSS 본문을 가져온다. 실패하면 None (예외를 던지지 않는다)."""
+    return http_util.fetch(url, HEADERS, label=label)
 
 
 # ── r/blender flair 크롤링 ────────────────────────
@@ -77,12 +69,11 @@ def fetch_blender_flair(flair: str, limit: int = 10) -> list[dict]:
         f"?q=flair%3A%22{flair.replace(' ', '+').replace('&', '%26').replace('!', '%21')}%22"
         f"&restrict_sr=1&sort=new&limit={limit}"
     )
-    res = _fetch_rss(url)
-    if res is None:
-        print(f"  ⚠️ [r/blender {flair}] 5회 재시도 후에도 429 — 빈 결과 반환")
+    text = _fetch_rss(url, label=f"r/blender {flair}")
+    if text is None:
         return []
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
-    root = ET.fromstring(res.text)
+    root = ET.fromstring(text)
     posts = []
     for e in root.findall("atom:entry", ns):
         link = e.find("atom:link", ns)
@@ -97,12 +88,11 @@ def fetch_blender_flair(flair: str, limit: int = 10) -> list[dict]:
 # ── r/blenderhelp hot 크롤링 ─────────────────────
 def fetch_blenderhelp(limit: int = 20) -> list[dict]:
     url = f"https://www.reddit.com/r/blenderhelp/hot.rss?limit={limit}"
-    res = _fetch_rss(url)
-    if res is None:
-        print(f"  ⚠️ [r/blenderhelp] 5회 재시도 후에도 429 — 빈 결과 반환")
+    text = _fetch_rss(url, label="r/blenderhelp")
+    if text is None:
         return []
     ns   = {"atom": "http://www.w3.org/2005/Atom"}
-    root = ET.fromstring(res.text)
+    root = ET.fromstring(text)
     posts = []
     for e in root.findall("atom:entry", ns):
         link    = e.find("atom:link", ns)
